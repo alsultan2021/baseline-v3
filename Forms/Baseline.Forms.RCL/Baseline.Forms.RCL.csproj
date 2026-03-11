@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Forms.RCL</AssemblyName>
+        <RootNamespace>Baseline.Forms.RCL</RootNamespace>
+        <Description>Baseline v3 Forms RCL - Blazor components for rendering and submitting localized BizForms</Description>
+        <PackageTags>kentico;xperience;baseline;forms;rcl;blazor</PackageTags>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <StaticWebAssetBasePath>_content/Baseline.Forms.RCL</StaticWebAssetBasePath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Update="_ViewImports.cshtml" Pack="false" CopyToPublishDirectory="Never" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Forms\Baseline.Forms.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

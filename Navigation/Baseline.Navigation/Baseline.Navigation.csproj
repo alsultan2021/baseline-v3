@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Navigation</AssemblyName>
+        <RootNamespace>Baseline.Navigation</RootNamespace>
+        <Description>Baseline v3 Navigation module - Breadcrumbs, menus, and sitemap for Xperience by Kentico</Description>
+        <PackageTags>kentico;xperience;baseline;navigation;breadcrumbs;sitemap;menu</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings" Version="$(ChannelSettingsVersion)" />
+        <PackageReference Include="XperienceCommunity.MemberRoles" Version="$(MemberRolesVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Baseline.Core\Baseline.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

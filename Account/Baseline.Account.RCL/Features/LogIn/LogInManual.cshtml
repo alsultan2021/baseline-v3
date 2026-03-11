@@ -1,0 +1,59 @@
+@model Baseline.Account.RCL.Features.LogIn.LogInViewModel
+@{
+    ViewData["Title"] = "Log In";
+    var returnUrl = ViewData["ReturnUrl"]?.ToString() ?? "";
+}
+
+<div class="login-container">
+    <h1>Log In</h1>
+    
+    @if (Model?.ResultOfSignIn?.IsNotAllowed == true)
+    {
+        <div class="alert alert-warning">
+            <p>Your account is not yet confirmed. Please check your email for the confirmation link.</p>
+            @if (!string.IsNullOrEmpty(Model.ResendConfirmationToken))
+            {
+                <form method="post" asp-controller="Registration" asp-action="ResendRegistration">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="UserName" value="@Model.UserName" />
+                    <input type="hidden" name="VerificationCheck" value="@Model.ResendConfirmationToken" />
+                    <button type="submit" class="btn btn-link">Resend Confirmation Email</button>
+                </form>
+            }
+        </div>
+    }
+    else if (Model?.ResultOfSignIn?.Succeeded == false)
+    {
+        <div class="alert alert-danger">
+            <p>Invalid username or password. Please try again.</p>
+        </div>
+    }
+    
+    <form method="post" asp-controller="LogIn" asp-action="LogIn" asp-route-returnUrl="@returnUrl">
+        @Html.AntiForgeryToken()
+        
+        <div class="form-group">
+            <label asp-for="UserName">Username or Email</label>
+            <input asp-for="UserName" type="text" class="form-control" required autofocus />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" type="password" class="form-control" required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        
+        <div class="form-check">
+            <input asp-for="StayLogedIn" type="checkbox" class="form-check-input" />
+            <label asp-for="StayLogedIn" class="form-check-label">Remember me</label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+    
+    <div class="login-links">
+        <p><a href="/Account/ForgotPassword">Forgot your password?</a></p>
+        <p>Don't have an account? <a href="/Account/Registration">Register</a></p>
+    </div>
+</div>

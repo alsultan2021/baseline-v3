@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="baseline.localization.module.name" xml:space="preserve">
+    <value>Baseline Localization</value>
+    <comment>Module display name</comment>
+  </data>
+  <data name="baseline.localization.cache.clear" xml:space="preserve">
+    <value>Clear Localization Cache</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="baseline.localization.cache.cleared" xml:space="preserve">
+    <value>Localization cache cleared successfully.</value>
+    <comment>Success notification</comment>
+  </data>
+  <data name="baseline.localization.translations.missing" xml:space="preserve">
+    <value>Missing Translations</value>
+    <comment>Section heading</comment>
+  </data>
+  <data name="baseline.localization.translations.count" xml:space="preserve">
+    <value>{0} translation keys found</value>
+    <comment>Status message</comment>
+  </data>
+  <data name="baseline.localization.languages.all" xml:space="preserve">
+    <value>All Languages</value>
+    <comment>Dropdown label</comment>
+  </data>
+  <data name="baseline.localization.languages.primary" xml:space="preserve">
+    <value>Primary Language</value>
+    <comment>Label for primary language indicator</comment>
+  </data>
+</root>

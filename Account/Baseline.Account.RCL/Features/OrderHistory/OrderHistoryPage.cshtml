@@ -1,0 +1,97 @@
+@model Baseline.Account.RCL.Features.OrderHistory.OrderHistoryViewModel
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<div class="order-history-container">
+    <h1>Order History</h1>
+    
+    @if (!string.IsNullOrEmpty(Model?.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
+    else if (Model?.OrderHistory?.Orders.Count > 0)
+    {
+        @if (Model.Stats is not null)
+        {
+            <div class="order-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Total Orders</span>
+                    <span class="stat-value">@Model.Stats.TotalOrders</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Spent</span>
+                    <span class="stat-value">@Model.Stats.TotalSpent.ToString("C")</span>
+                </div>
+                @if (Model.Stats.PendingOrders > 0)
+                {
+                    <div class="stat-item">
+                        <span class="stat-label">Pending</span>
+                        <span class="stat-value">@Model.Stats.PendingOrders</span>
+                    </div>
+                }
+            </div>
+        }
+        
+        <table class="table order-table">
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.OrderHistory.Orders)
+                {
+                    <tr>
+                        <td>@order.OrderNumber</td>
+                        <td>@order.OrderDate.ToString("d")</td>
+                        <td><span class="order-status status-@order.Status.ToLowerInvariant()">@order.Status</span></td>
+                        <td>@order.ItemCount</td>
+                        <td>@order.Total.ToString("C")</td>
+                        <td><a href="/Account/Orders/@order.OrderId" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="pagination-nav">
+                <ul class="pagination">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li><a href="/Account/Orders?page=@(Model.CurrentPage - 1)">Previous</a></li>
+                    }
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="@(i == Model.CurrentPage ? "active" : "")">
+                            <a href="/Account/Orders?page=@i">@i</a>
+                        </li>
+                    }
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <li><a href="/Account/Orders?page=@(Model.CurrentPage + 1)">Next</a></li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="no-orders">
+            <p>You haven't placed any orders yet.</p>
+            <a href="/" class="btn btn-primary">Start Shopping</a>
+        </div>
+    }
+    
+    <p class="mt-3">
+        <a href="/Account/MyAccount">Back to My Account</a>
+    </p>
+</div>

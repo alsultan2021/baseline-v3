@@ -1,0 +1,68 @@
+<script>
+(function() {
+    'use strict';
+    
+    // Script queue for async loading
+    window._scriptQueue = window._scriptQueue || [];
+    
+    // Track executed script identifiers to prevent duplicates
+    window._executedScriptIds = window._executedScriptIds || new Set();
+    
+    // Queue for callbacks to run after scripts are loaded
+    window.PreloadQueue = window.PreloadQueue || [];
+    
+    /**
+     * Load a script asynchronously
+     * Options: src (string, required), header (boolean), crossorigin (string), appendAtEnd (boolean)
+     */
+    window.LoadScript = function(options) {
+        if (!options || !options.src) {
+            console.warn('LoadScript: src is required');
+            return;
+        }
+        
+        window._scriptQueue.push({
+            src: options.src,
+            header: options.header || false,
+            crossorigin: options.crossorigin || null,
+            appendAtEnd: options.appendAtEnd || false
+        });
+    };
+    
+    /**
+     * Run a function once all scripts are loaded
+     * Parameters: fn (Function, required), identifier (string, optional - prevents duplicates)
+     */
+    window.OnScriptsLoaded = function(fn, identifier) {
+        if (typeof fn !== 'function') {
+            console.warn('OnScriptsLoaded: function is required');
+            return;
+        }
+        
+        // Check if already executed
+        if (identifier && window._executedScriptIds.has(identifier)) {
+            return;
+        }
+        
+        // If scripts are already loaded, run immediately
+        if (window.ScriptsLoaded) {
+            if (identifier) {
+                window._executedScriptIds.add(identifier);
+            }
+            fn();
+            return;
+        }
+        
+        // Queue for later execution
+        window.PreloadQueue.push(function() {
+            if (identifier) {
+                if (window._executedScriptIds.has(identifier)) {
+                    return;
+                }
+                window._executedScriptIds.add(identifier);
+            }
+            fn();
+        });
+    };
+})();
+</script>

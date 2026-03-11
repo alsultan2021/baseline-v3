@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Baseline.AI.Admin</RootNamespace>
+        <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <Description>Admin UI module for Baseline.AI - provides configuration pages in the Xperience admin interface.</Description>
+        <!-- Must match RegisterClientModule orgName and webpack orgName -->
+        <AdminOrgName>baseline</AdminOrgName>
+        <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+        <!-- TypeScript handled by npm build, not VS -->
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <!-- Skip npm build in Debug by default -->
+        <SkipNpmBuild Condition="'$(SkipNpmBuild)' == '' AND '$(Configuration)' == 'Debug'">true</SkipNpmBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PackageId>XperienceCommunity.Baseline.AI.Admin</PackageId>
+        <Version>$(BaselineVersion)</Version>
+        <PackageTags>Kentico;Xperience;AI;Admin;Configuration</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.3" />
+    </ItemGroup>
+
+    <!-- Embedded resources for admin UI -->
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*" />
+    </ItemGroup>
+
+    <!-- Admin client React/TypeScript files -->
+    <ItemGroup>
+        <AdminClientPath Include="Client\dist\**">
+            <ProjectName>ai-admin</ProjectName>
+        </AdminClientPath>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Client\node_modules\**" />
+        <EmbeddedResource Remove="Client\node_modules\**" />
+        <None Remove="Client\node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Client\dist\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.AI\Baseline.AI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+    <!-- npm install before build -->
+    <Target Name="NpmInstall" BeforeTargets="NpmBuildClient" Condition="'$(SkipNpmBuild)' != 'true'">
+        <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
+    </Target>
+
+    <!-- npm build before .NET build -->
+    <Target Name="NpmBuildClient" BeforeTargets="BeforeBuild" Condition="'$(SkipNpmBuild)' != 'true'">
+        <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
+    </Target>
+
+</Project>

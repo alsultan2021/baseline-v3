@@ -1,0 +1,17 @@
+@model Account.Features.Account.LogOut.LogOutViewModel
+@{
+    ViewData["Title"] = "Log Out";
+}
+
+<div class="logout-container">
+    <h1>Log Out</h1>
+    
+    <p>Are you sure you want to log out?</p>
+    
+    <form method="post" asp-controller="LogOut" asp-action="LogOut">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="RedirectUrl" value="/" />
+        <button type="submit" class="btn btn-primary">Log Out</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

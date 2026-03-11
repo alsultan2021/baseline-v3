@@ -1,0 +1,157 @@
+@model Baseline.Account.RCL.Features.DeviceAuthorization.DeviceCodeViewModel
+@{
+    ViewData["Title"] = "Sign In With Code";
+}
+
+<div class="device-code-container" style="max-width: 500px; margin: 60px auto; text-align: center; padding: 0 20px;">
+    <h1 style="margin-bottom: 10px;">Sign In With Code</h1>
+    <p style="color: #666; margin-bottom: 30px;">
+        Use another device where you're already signed in to authorize this one.
+    </p>
+
+    <!-- User Code Display -->
+    <div id="codeDisplay" style="background: #f5f5f5; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+        <p style="font-size: 14px; color: #888; margin-bottom: 10px;">Enter this code on your other device:</p>
+        <div style="font-size: 48px; font-weight: 700; letter-spacing: 4px; font-family: monospace; color: #333;">
+            @Model.UserCode
+        </div>
+        <p style="font-size: 14px; color: #888; margin-top: 15px;">
+            Or visit: <a href="@Model.VerificationUrl" target="_blank">@Model.VerificationUrl</a>
+        </p>
+    </div>
+
+    <!-- QR Code (generated client-side) -->
+    <div id="qrSection" style="margin-bottom: 30px;">
+        <p style="font-size: 14px; color: #888; margin-bottom: 10px;">Or scan this QR code:</p>
+        <div id="qrCode"
+             style="display: inline-block; padding: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div id="statusSection">
+        <div id="statusPending"
+             style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #666;">
+            <div class="spinner"
+                 style="width: 20px; height: 20px; border: 3px solid #ddd; border-top: 3px solid #333; border-radius: 50%; animation: spin 1s linear infinite;">
+            </div>
+            <span>Waiting for approval...</span>
+        </div>
+        <div id="statusApproved" style="display: none; color: #22c55e; font-weight: 600;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 style="vertical-align: middle; margin-right: 5px;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            Approved! Signing you in...
+        </div>
+        <div id="statusDenied" style="display: none; color: #ef4444; font-weight: 600;">
+            Authorization was denied.
+        </div>
+        <div id="statusExpired" style="display: none; color: #f59e0b; font-weight: 600;">
+            Code expired. <a
+            href="/@Baseline.Account.RCL.Features.DeviceAuthorization.DeviceAuthorizationController.RequestCodeUrl">Get
+            a new code</a>
+        </div>
+    </div>
+
+    <!-- Timer -->
+    <div id="timerSection" style="margin-top: 20px; font-size: 13px; color: #999;">
+        Code expires in <span id="countdown"></span>
+    </div>
+</div>
+
+<style>
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+@* QR Code library (lightweight, no dependencies) *@
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    (function () {
+    const deviceCode = '@Model.DeviceCode';
+    const pollUrl = '/@Baseline.Account.RCL.Features.DeviceAuthorization.DeviceAuthorizationController.PollUrl';
+    const intervalMs = @Model.IntervalSeconds * 1000;
+    const expiresAt = new Date('@Model.ExpiresAt');
+
+    // Generate QR code
+    if (typeof qrcode !== 'undefined') {
+    var qr = qrcode(0, 'M');
+    qr.addData('@Model.VerificationUrlComplete');
+    qr.make();
+    document.getElementById('qrCode').innerHTML = qr.createSvgTag(6, 0);
+    }
+
+    // Countdown timer
+    function updateCountdown() {
+    const now = new Date();
+    const diff = Math.max(0, Math.floor((expiresAt - now) / 1000));
+    const min = Math.floor(diff / 60);
+    const sec = diff % 60;
+    const el = document.getElementById('countdown');
+    if (el) el.textContent = min + ':' + (sec < 10 ? '0' : '') + sec;
+    if (diff <= 0) {
+    clearInterval(countdownTimer);
+    showStatus('expired');
+    }
+    }
+    const countdownTimer = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Poll for authorization
+    let polling = true;
+    async function poll() {
+    if (!polling) return;
+    try {
+    const resp = await fetch(pollUrl + '?deviceCode=' + encodeURIComponent(deviceCode));
+    const data = await resp.json();
+
+    if (data.authorized) {
+    polling = false;
+    showStatus('approved');
+    clearInterval(countdownTimer);
+    // Redirect after a short delay
+    setTimeout(() => { window.location.href = '/'; }, 1500);
+    } else if (data.denied) {
+    polling = false;
+    showStatus('denied');
+    clearInterval(countdownTimer);
+    } else if (data.expired) {
+    polling = false;
+    showStatus('expired');
+    clearInterval(countdownTimer);
+    }
+    // else: still pending, keep polling
+    } catch (e) {
+    console.error('Poll error:', e);
+    }
+
+    if (polling) {
+    setTimeout(poll, intervalMs);
+    }
+    }
+
+    function showStatus(status) {
+    document.getElementById('statusPending').style.display = 'none';
+    document.getElementById('statusApproved').style.display = 'none';
+    document.getElementById('statusDenied').style.display = 'none';
+    document.getElementById('statusExpired').style.display = 'none';
+    document.getElementById('status' + status.charAt(0).toUpperCase() + status.slice(1)).style.display = 'flex';
+    if (status !== 'pending') {
+    document.getElementById('timerSection').style.display = 'none';
+    }
+    }
+
+    // Start polling
+    setTimeout(poll, intervalMs);
+    })();
+</script>

@@ -1,0 +1,47 @@
+@model Baseline.Navigation.Components.MenuViewModel
+
+@if (Model.HasItems)
+{
+    <nav class="navbar-nav main-navigation" role="navigation" aria-label="Main navigation">
+        <ul class="nav navbar-nav">
+            @foreach (var item in Model.Menu!.Items)
+            {
+                var hasChildren = item.Children?.Any() ?? false;
+                <li class="nav-item @(hasChildren ? "dropdown" : "") @(item.IsActive ? "active" : "")">
+                    @if (hasChildren)
+                    {
+                        <a href="@item.Url" 
+                           class="nav-link dropdown-toggle"
+                           id="nav-dropdown-@item.Title?.ToLowerInvariant().Replace(" ", "-")"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false"
+                           aria-haspopup="true">
+                            @item.Title
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="nav-dropdown-@item.Title?.ToLowerInvariant().Replace(" ", "-")">
+                            @foreach (var child in item.Children!)
+                            {
+                                <li>
+                                    <a class="dropdown-item @(child.IsActive ? "active" : "")" 
+                                       href="@child.Url"
+                                       aria-current="@(child.IsActive ? "page" : null)">
+                                        @child.Title
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <a href="@item.Url" 
+                           class="nav-link @(item.IsActive ? "active" : "")"
+                           aria-current="@(item.IsActive ? "page" : null)">
+                            @item.Title
+                        </a>
+                    }
+                </li>
+            }
+        </ul>
+    </nav>
+}

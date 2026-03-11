@@ -1,0 +1,38 @@
+@model Baseline.Navigation.Components.MenuItemRenderModel
+@{
+    var item = Model.Item;
+    var maxDepth = Model.MaxDepth;
+    var currentDepth = Model.CurrentDepth;
+    var hasChildren = item.Children?.Any() ?? false;
+    var shouldRenderChildren = hasChildren && currentDepth < maxDepth;
+}
+
+<li class="nav-item @(hasChildren ? "has-children" : "") @(item.IsActive ? "active" : "")">
+    @if (!string.IsNullOrEmpty(item.Url))
+    {
+        <a href="@item.Url"     class="nav-link @(item.IsActive ? "active" : "")"
+               target="@(item.OpenInNewWindow ? "_blank" : null)"    rel="@(item.OpenInNewWindow ? "noopener noreferrer" : null)"
+               aria-current="@(item.IsActive ? "page" : null)">
+            @if (!string.IsNullOrEmpty(item.IconClass))
+            {
+                <i class="@item.IconClass" aria-hidden="true"></i>
+            }
+            <span>@item.Title</span>
+        </a>
+    }
+    else
+    {
+        <span class="nav-label">@item.Title</span>
+    }
+
+    @if (shouldRenderChildren)
+    {
+        <ul class="nav-submenu depth-@(currentDepth + 1)">
+            @foreach (var child in item.Children!)
+            {
+                <partial name="_MenuItem"
+                         model="@(new Baseline.Navigation.Components.MenuItemRenderModel(child, maxDepth, currentDepth + 1))" />
+            }
+        </ul>
+    }
+</li>

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Baseline.Search.Lucene</RootNamespace>
+        <Description>Baseline Search Lucene integration for Xperience by Kentico</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Search\Baseline.Search.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Lucene.Core" Version="14.0.0" />
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Lucene.Net.Highlighter" Version="4.8.0-beta00017" />
+        <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00017" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
+        <!-- AngleSharp 0.17.1 is inherited from Directory.Build.props -->
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

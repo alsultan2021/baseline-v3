@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Ecommerce</AssemblyName>
+        <RootNamespace>Baseline.Ecommerce</RootNamespace>
+        <Description>Baseline v3 Ecommerce module - Shopping cart, checkout, and order management for Xperience by Kentico</Description>
+        <PackageTags>kentico;xperience;baseline;ecommerce;cart;checkout</PackageTags>
+    </PropertyGroup>
+
+    <!-- Enable Kentico class discovery for Info classes and object types -->
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings" Version="$(ChannelSettingsVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Baseline.Core\Baseline.Core.csproj" />
+        <ProjectReference Include="..\..\Account\Baseline.Account\Baseline.Account.csproj" />
+        <ProjectReference Include="..\..\AI\Baseline.AI\Baseline.AI.csproj" />
+        <ProjectReference Include="..\..\Automation\Baseline.Automation\Baseline.Automation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,1 @@
+export interface AgentCardModel { readonly identifier: string; readonly name: string; readonly description: string; readonly isEnabled: boolean; readonly editUrl: string; } export interface AgentsListingProps { readonly title: string; readonly agents: AgentCardModel[]; }

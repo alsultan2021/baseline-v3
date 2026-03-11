@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "My Account";
+}
+
+<div class="my-account-container">
+    <h1>My Account</h1>
+    
+    <nav class="account-navigation">
+        <ul>
+            <li><a href="/Account/MyAccount">Dashboard</a></li>
+            <li><a href="/Account/ResetPassword">Change Password</a></li>
+            <li><a href="/Account/OrderHistory">Order History</a></li>
+            <li><a href="/Account/LogOut">Log Out</a></li>
+        </ul>
+    </nav>
+    
+    <section class="account-overview">
+        <h2>Welcome, @User.Identity?.Name</h2>
+        <p>Manage your account settings and view your order history.</p>
+    </section>
+</div>

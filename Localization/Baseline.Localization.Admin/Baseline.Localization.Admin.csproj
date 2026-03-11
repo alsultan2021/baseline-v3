@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Localization.Admin</AssemblyName>
+        <RootNamespace>Baseline.Localization.Admin</RootNamespace>
+        <Description>Baseline v3 Localization Admin module - Admin UI for resource string management</Description>
+        <PackageTags>kentico;xperience;baseline;localization;admin</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Localization\Baseline.Localization.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

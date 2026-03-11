@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Unauthorized";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 40px; background: #f8f9fa; }
+        .error-container { max-width: 600px; margin: 0 auto; text-align: center; }
+        .error-code { font-size: 120px; font-weight: bold; color: #dee2e6; margin: 0; }
+        h1 { color: #212529; margin: 20px 0 10px; }
+        p { color: #6c757d; margin: 10px 0 30px; }
+        .btn { display: inline-block; padding: 12px 24px; background: #0d6efd; color: white; text-decoration: none; border-radius: 6px; }
+        .btn:hover { background: #0b5ed7; }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <p class="error-code">401</p>
+        <h1>Unauthorized</h1>
+        <p>You need to be logged in to access this page.</p>
+        <a href="/Account/LogIn" class="btn">Sign In</a>
+    </div>
+</body>
+</html>

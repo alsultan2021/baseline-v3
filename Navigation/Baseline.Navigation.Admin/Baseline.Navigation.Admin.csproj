@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Navigation.Admin</AssemblyName>
+        <RootNamespace>Baseline.Navigation.Admin</RootNamespace>
+        <Description>Baseline v3 Navigation Admin module - Admin UI for navigation management</Description>
+        <PackageTags>kentico;xperience;baseline;navigation;admin</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings.Admin" Version="$(ChannelSettingsVersion)" />
+        <PackageReference Include="XperienceCommunity.MemberRoles.Admin" Version="$(MemberRolesVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Navigation\Baseline.Navigation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

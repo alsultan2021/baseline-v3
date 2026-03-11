@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Localization</AssemblyName>
+        <RootNamespace>Baseline.Localization</RootNamespace>
+        <Description>Baseline v3 Localization module - Multi-language support and resource management for Xperience by Kentico</Description>
+        <PackageTags>kentico;xperience;baseline;localization;i18n;multilingual</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Baseline.Core\Baseline.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

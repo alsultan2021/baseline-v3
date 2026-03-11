@@ -1,0 +1,20 @@
+@model Baseline.Ecommerce.Components.CartSummaryViewModel
+
+<a href="/cart" class="cart-summary d-inline-flex align-items-center text-decoration-none position-relative" aria-label="Shopping cart">
+    <i class="feather icon-feather-shopping-cart fs-5" aria-hidden="true"></i>
+    
+    @if (Model.ShowItemCount && Model.ItemCount > 0)
+    {
+        <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+            @(Model.ItemCount > 99 ? "99+" : Model.ItemCount)
+            <span class="visually-hidden">items in cart</span>
+        </span>
+    }
+    
+    @if (Model.ShowTotal && Model.Total > 0)
+    {
+        <span class="cart-total ms-2">
+            @Model.Total.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture(Model.CurrencyCode == "EUR" ? "fr-FR" : "en-US"))
+        </span>
+    }
+</a>

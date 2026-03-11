@@ -1,0 +1,225 @@
+@using Baseline.Forms.Localization.Interfaces
+@using Baseline.Forms.Localization.Models
+@using Baseline.Forms.Configuration
+@using Microsoft.Extensions.Options
+
+@inject ILocalizedFormService LocalizedFormService
+@inject ILocalizedFormSubmissionService SubmissionService
+@inject IOptions<BaselineFormsOptions> Options
+
+@* DynamicForm — renders a Kentico BizForm with fully localised labels, placeholders,
+   validation messages, and submit/success/error text.
+
+   Translation source: Kentico Content Hub resource strings keyed as:
+     {formCodeName}.name          → form title
+     {formCodeName}.submit        → submit button text
+     {formCodeName}.success       → success message
+     {formCodeName}.fields.{name}.caption      → field label
+     {formCodeName}.fields.{name}.placeholder  → input placeholder
+     {formCodeName}.fields.{name}.help         → help text
+
+   Usage (MVC view):
+     <component type="typeof(Baseline.Forms.RCL.Components.DynamicForm)"
+                render-mode="InteractiveServer"
+                param-FormCodeName="@Model.FormCodeName"
+                param-CultureCode="@CultureInfo.CurrentUICulture.Name" />
+
+   Usage (Blazor page):
+     <DynamicForm FormCodeName="contactUs" CultureCode="fr-CA" /> *@
+
+@if (_loading)
+{
+    <div class="dynamic-form dynamic-form--loading" aria-busy="true">
+        <span class="visually-hidden">Loading form…</span>
+    </div>
+}
+else if (_form is null)
+{
+    <div class="dynamic-form dynamic-form--not-found" role="alert">
+        Form not found.
+    </div>
+}
+else if (_submitted)
+{
+    <div class="dynamic-form dynamic-form--success alert alert-success" role="status">
+        @(_form.SuccessMessage ?? "Thank you for your submission.")
+    </div>
+}
+else
+{
+    <div class="dynamic-form">
+
+        @if (!string.IsNullOrEmpty(_form.DisplayName))
+        {
+            <h2 class="dynamic-form__title">@_form.DisplayName</h2>
+        }
+
+        @if (!string.IsNullOrEmpty(_form.Description))
+        {
+            <p class="dynamic-form__description">@_form.Description</p>
+        }
+
+        @* Global submission error *@
+        @if (!string.IsNullOrEmpty(_globalError))
+        {
+            <div class="dynamic-form__error alert alert-danger" role="alert">@_globalError</div>
+        }
+
+        <form class="dynamic-form__form"
+              @onsubmit="HandleSubmitAsync"
+              @onsubmit:preventDefault="true"
+              novalidate>
+
+            @* Honeypot — hidden from real users, bots fill it in *@
+            @if (Options.Value.EnableHoneypot)
+            {
+                <div class="@Options.Value.HoneypotCssClass" aria-hidden="true" tabindex="-1" style="display:none">
+                    <input type="text"
+                           name="@Options.Value.HoneypotFieldName"
+                           autocomplete="off"
+                           tabindex="-1" />
+                </div>
+            }
+
+            @* Fields *@
+            @foreach (var field in _form.Fields)
+            {
+                <FormField Field="@field"
+                           Value="@GetValue(field.Name)"
+                           ErrorMessage="@GetFieldError(field.Name)"
+                           OnValueChange="@SetValue" />
+            }
+
+            <div class="dynamic-form__actions">
+                <button type="submit"
+                        class="btn btn-primary dynamic-form__submit"
+                        disabled="@_submitting">
+                    @if (_submitting)
+                    {
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Submitting…</span>
+                    }
+                    else
+                    {
+                        @_form.SubmitButtonText
+                    }
+                </button>
+            </div>
+        </form>
+    </div>
+}
+
+@code {
+    /// <summary>Kentico BizForm code name (e.g. "ContactUs").</summary>
+    [Parameter, EditorRequired] public string FormCodeName { get; set; } = null!;
+
+    /// <summary>
+    /// Culture to use for all labels, placeholders, and messages (e.g. "fr-CA").
+    /// Defaults to the current request culture when null.
+    /// </summary>
+    [Parameter] public string? CultureCode { get; set; }
+
+    /// <summary>Fires after a successful submission with the raw result.</summary>
+    [Parameter] public EventCallback<LocalizedSubmissionResult> OnSuccess { get; set; }
+
+    // ── state ────────────────────────────────────────────────────────────────
+    private LocalizedForm? _form;
+    private bool _loading = true;
+    private bool _submitting;
+    private bool _submitted;
+    private string? _globalError;
+
+    /// <summary>Live form data keyed by field name.</summary>
+    private Dictionary<string, object?> _data = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>Field-level validation errors keyed by field name.</summary>
+    private Dictionary<string, string> _fieldErrors = new(StringComparer.OrdinalIgnoreCase);
+
+    // ── lifecycle ─────────────────────────────────────────────────────────────
+    protected override async Task OnParametersSetAsync()
+    {
+        _loading = true;
+        _submitted = false;
+        _globalError = null;
+        _fieldErrors.Clear();
+        _data.Clear();
+
+        _form = await LocalizedFormService.GetLocalizedFormAsync(FormCodeName, CultureCode);
+
+        // Seed data dictionary with field defaults
+        if (_form is not null)
+        {
+            foreach (var field in _form.Fields)
+            {
+                _data[field.Name] = field.DefaultValue;
+            }
+        }
+
+        _loading = false;
+    }
+
+    // ── data binding ──────────────────────────────────────────────────────────
+    private object? GetValue(string fieldName) =>
+        _data.TryGetValue(fieldName, out var v) ? v : null;
+
+    private void SetValue((string Name, object? Value) change)
+    {
+        _data[change.Name] = change.Value;
+        // Clear per-field error as soon as the user edits the field
+        _fieldErrors.Remove(change.Name);
+    }
+
+    private string? GetFieldError(string fieldName) =>
+        _fieldErrors.TryGetValue(fieldName, out var msg) ? msg : null;
+
+    // ── submission ────────────────────────────────────────────────────────────
+    private async Task HandleSubmitAsync()
+    {
+        if (_form is null || _submitting)
+        {
+            return;
+        }
+
+        _submitting = true;
+        _globalError = null;
+        _fieldErrors.Clear();
+
+        try
+        {
+            var result = await SubmissionService.SubmitFormAsync(FormCodeName, _data, CultureCode);
+
+            if (result.Success)
+            {
+                _submitted = true;
+                await OnSuccess.InvokeAsync(result);
+            }
+            else
+            {
+                // Map field-level errors back to the dictionary
+                if (result.Errors is { Count: > 0 })
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        _fieldErrors[error.FieldName] = error.ErrorMessage;
+                    }
+                }
+
+                // Show global error when there are no field errors (e.g. server fault)
+                if (_fieldErrors.Count == 0)
+                {
+                    _globalError = result.Message.Length > 0
+                        ? result.Message
+                        : (_form.ErrorMessage ?? "An error occurred. Please try again.");
+                }
+            }
+        }
+        catch (Exception)
+        {
+            _globalError = _form.ErrorMessage ?? "An unexpected error occurred. Please try again.";
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+}

@@ -1,0 +1,225 @@
+@model Baseline.Ecommerce.Components.CheckoutViewModel
+<meta name="robots" content="noindex, nofollow">
+
+<div class="checkout-page">
+    <h1 class="h2 mb-4">Checkout</h1>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger mb-4">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    <form asp-controller="Checkout" asp-action="ProcessOrder" method="post" class="needs-validation" novalidate>
+        <div class="row g-4">
+            @* Left column - Forms *@
+            <div class="col-lg-8">
+                @* Billing Information *@
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Billing Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="billingFirstName" class="form-label">First Name *</label>
+                                <input type="text" class="form-control" id="billingFirstName" name="billingFirstName"
+                                    value="@Model.BillingFirstName" required />
+                                <div class="invalid-feedback">First name is required.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="billingLastName" class="form-label">Last Name *</label>
+                                <input type="text" class="form-control" id="billingLastName" name="billingLastName"
+                                    value="@Model.BillingLastName" required />
+                                <div class="invalid-feedback">Last name is required.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="billingEmail" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="billingEmail" name="billingEmail"
+                                    value="@Model.BillingEmail" required />
+                                <div class="invalid-feedback">Valid email is required.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="billingPhone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="billingPhone" name="billingPhone"
+                                    value="@Model.BillingPhone" />
+                            </div>
+                            <div class="col-12">
+                                <label for="billingAddress1" class="form-label">Address *</label>
+                                <input type="text" class="form-control" id="billingAddress1" name="billingAddress1"
+                                    value="@Model.BillingAddress1" required />
+                                <div class="invalid-feedback">Address is required.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="billingAddress2" class="form-label">Address Line 2</label>
+                                <input type="text" class="form-control" id="billingAddress2" name="billingAddress2"
+                                    value="@Model.BillingAddress2" />
+                            </div>
+                            <div class="col-md-5">
+                                <label for="billingCity" class="form-label">City *</label>
+                                <input type="text" class="form-control" id="billingCity" name="billingCity"
+                                    value="@Model.BillingCity" required />
+                                <div class="invalid-feedback">City is required.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="billingState" class="form-label">State/Province *</label>
+                                <input type="text" class="form-control" id="billingState" name="billingState"
+                                    value="@Model.BillingState" required />
+                                <div class="invalid-feedback">State is required.</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="billingPostalCode" class="form-label">Postal Code *</label>
+                                <input type="text" class="form-control" id="billingPostalCode" name="billingPostalCode"
+                                    value="@Model.BillingPostalCode" required />
+                                <div class="invalid-feedback">Postal code is required.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="billingCountry" class="form-label">Country *</label>
+                                <select class="form-select" id="billingCountry" name="billingCountry" required>
+                                    <option value="">Select a country...</option>
+                                    <option value="US" selected="@(Model.BillingCountry == "US")">United States</option>
+                                    <option value="CA" selected="@(Model.BillingCountry == "CA")">Canada</option>
+                                    <option value="GB" selected="@(Model.BillingCountry == "GB")">United Kingdom
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">Country is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* Shipping Information *@
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="sameAsShipping" name="sameAsShipping"
+                                checked="@Model.SameAsShipping" />
+                            <label class="form-check-label h5 mb-0" for="sameAsShipping">Ship to billing address</label>
+                        </div>
+                    </div>
+                    <div class="card-body" id="shippingAddress" style="@(Model.SameAsShipping ? "display: none;" : "")">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="shippingFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="shippingFirstName" name="shippingFirstName"
+                                    value="@Model.ShippingFirstName" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="shippingLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="shippingLastName" name="shippingLastName"
+                                    value="@Model.ShippingLastName" />
+                            </div>
+                            <div class="col-12">
+                                <label for="shippingAddress1" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="shippingAddress1" name="shippingAddress1"
+                                    value="@Model.ShippingAddress1" />
+                            </div>
+                            <div class="col-12">
+                                <label for="shippingAddress2" class="form-label">Address Line 2</label>
+                                <input type="text" class="form-control" id="shippingAddress2" name="shippingAddress2"
+                                    value="@Model.ShippingAddress2" />
+                            </div>
+                            <div class="col-md-5">
+                                <label for="shippingCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="shippingCity" name="shippingCity"
+                                    value="@Model.ShippingCity" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="shippingState" class="form-label">State/Province</label>
+                                <input type="text" class="form-control" id="shippingState" name="shippingState"
+                                    value="@Model.ShippingState" />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="shippingPostalCode" class="form-label">Postal Code</label>
+                                <input type="text" class="form-control" id="shippingPostalCode"
+                                    name="shippingPostalCode" value="@Model.ShippingPostalCode" />
+                            </div>
+                            <div class="col-12">
+                                <label for="shippingCountry" class="form-label">Country</label>
+                                <select class="form-select" id="shippingCountry" name="shippingCountry">
+                                    <option value="">Select a country...</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="GB">United Kingdom</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Right column - Order Summary *@
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 1rem;">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Order Summary</h2>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.OrderSummary.Items.Any())
+                        {
+                            <div class="order-items mb-3">
+                                @foreach (var item in Model.OrderSummary.Items)
+                                {
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>@item.Name × @item.Quantity</span>
+                                        <span>@item.Price.ToString("C")</span>
+                                    </div>
+                                }
+                            </div>
+                            <hr />
+                        }
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span>@Model.OrderSummary.Subtotal.ToString("C")</span>
+                        </div>
+
+                        @if (Model.OrderSummary.Discount > 0)
+                        {
+                            <div class="d-flex justify-content-between mb-2 text-success">
+                                <span>Discount</span>
+                                <span>−@Model.OrderSummary.Discount.ToString("C")</span>
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping</span>
+                            <span>@(Model.OrderSummary.Shipping > 0 ? Model.OrderSummary.Shipping.ToString("C") :
+                                                                "Free")</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tax</span>
+                            <span>@Model.OrderSummary.Tax.ToString("C")</span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
+                            <span>Total</span>
+                            <span>@Model.OrderSummary.Total.ToString("C")</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="feather icon-feather-lock me-2" aria-hidden="true"></i>
+                            Place Order
+                        </button>
+
+                        <p class="text-muted small text-center mt-3">
+                            <i class="feather icon-feather-shield me-1" aria-hidden="true"></i>
+                            Your payment information is secure
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Toggle shipping address visibility
+    document.getElementById('sameAsShipping')?.addEventListener('change', function () {
+        document.getElementById('shippingAddress').style.display = this.checked ? 'none' : 'block';
+    });
+</script>

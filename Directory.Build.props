@@ -1,0 +1,59 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <XByKVersion>31.2.0</XByKVersion>
+        <BaselineVersion>3.0.0</BaselineVersion>
+        <LangVersion>14.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <!-- Temporarily suppress NuGet security warnings until dependencies are updated -->
+        <NoWarn>$(NoWarn);NU1902;NU1903</NoWarn>
+        <!-- Fix for .NET 10 RC SDK prune package data issue -->
+        <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
+    </PropertyGroup>
+    <!-- Pin AngleSharp to 0.17.1 to resolve conflict with HtmlSanitizer 9.0.889 and AngleSharp.Css 0.17.0 -->
+    <!-- Pin SemanticKernel.Core to 1.73.0 to fix CVE-2026-25592 vulnerability (transitive from ModelContextProtocol) -->
+    <!-- Override vulnerable transitive dependency Magick.NET-Q8-AnyCPU with secure version -->
+    <ItemGroup>
+        <PackageReference Include="AngleSharp" Version="0.17.1" />
+        <PackageReference Include="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+        <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.3" />
+    </ItemGroup>
+    <!-- Community Package Versions -->
+    <PropertyGroup>
+        <MemberRolesVersion>2.6.0</MemberRolesVersion>
+        <ChannelSettingsVersion>1.3.0</ChannelSettingsVersion>
+        <MVCCachingVersion>3.3.0</MVCCachingVersion>
+        <QueryExtensionsVersion>4.0.0</QueryExtensionsVersion>
+        <RelationshipsExtendedVersion>1.1.0</RelationshipsExtendedVersion>
+        <!-- RCL Tag Helper Packages (plug-and-play) -->
+        <PageBuilderTagHelpersVersion>2.0.0</PageBuilderTagHelpersVersion>
+        <PartialWidgetPageVersion>31.1.0</PartialWidgetPageVersion>
+        <!-- PageEditButton v1.1.0 is incompatible with XbK v31 - waiting for update -->
+        <PageEditButtonVersion>1.1.0</PageEditButtonVersion>
+        <!-- Development Tools -->
+        <MiniProfilerVersion>3.0.0</MiniProfilerVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Title>Baseline v3 for Xperience by Kentico</Title>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/alsultan2021/baseline-v3</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/alsultan2021/baseline-v3</RepositoryUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
+        <Authors>Cheval Royal Team</Authors>
+        <Company>Cheval Royal</Company>
+        <Description>Baseline v3 - A streamlined foundation for Xperience by Kentico websites with built-in SEO, navigation, account management, and e-commerce support.</Description>
+        <PackageTags>Kentico, XbyK, Xperience, Baseline, CMS, SEO, Navigation</PackageTags>
+    </PropertyGroup>
+    <PropertyGroup>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+</Project>
+
+
+

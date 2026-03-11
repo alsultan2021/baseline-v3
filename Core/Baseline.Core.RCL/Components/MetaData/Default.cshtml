@@ -1,0 +1,134 @@
+@model Baseline.Core.Components.MetaDataViewModel
+
+@if (Model.Metadata is not null)
+{
+    var meta = Model.Metadata;
+
+    @* Basic Meta Tags *@
+    if (!string.IsNullOrEmpty(meta.Description))
+    {
+        <meta name="description" content="@meta.Description" />
+    }
+
+    if (!string.IsNullOrEmpty(meta.Keywords))
+    {
+        <!-- removed obsolete meta keywords -->
+    }
+
+    if (!string.IsNullOrEmpty(meta.Robots))
+    {
+        <meta name="robots" content="@meta.Robots" />
+    }
+
+    if (!string.IsNullOrEmpty(meta.CanonicalUrl))
+    {
+        <link rel="canonical" href="@meta.CanonicalUrl" />
+    }
+
+    @* Open Graph Tags *@
+    if (Model.IncludeOpenGraph && meta.OpenGraph is not null)
+    {
+        var og = meta.OpenGraph;
+
+        if (!string.IsNullOrEmpty(og.Title))
+        {
+            <meta property="og:title" content="@og.Title" />
+        }
+        if (!string.IsNullOrEmpty(og.Description))
+        {
+            <meta property="og:description" content="@og.Description" />
+        }
+        if (!string.IsNullOrEmpty(og.Type))
+        {
+            <meta property="og:type" content="@og.Type" />
+        }
+        if (!string.IsNullOrEmpty(og.Url))
+        {
+            <meta property="og:url" content="@og.Url" />
+        }
+        if (!string.IsNullOrEmpty(og.Image))
+        {
+            <meta property="og:image" content="@og.Image" />
+            if (!string.IsNullOrEmpty(og.ImageAlt))
+            {
+                <meta property="og:image:alt" content="@og.ImageAlt" />
+            }
+            if (og.ImageWidth.HasValue)
+            {
+                <meta property="og:image:width" content="@og.ImageWidth" />
+            }
+            if (og.ImageHeight.HasValue)
+            {
+                <meta property="og:image:height" content="@og.ImageHeight" />
+            }
+        }
+        if (!string.IsNullOrEmpty(og.SiteName))
+        {
+            <meta property="og:site_name" content="@og.SiteName" />
+        }
+        if (!string.IsNullOrEmpty(og.Locale))
+        {
+            <meta property="og:locale" content="@og.Locale" />
+        }
+        if (og.AlternateLocales?.Any() == true)
+        {
+            foreach (var locale in og.AlternateLocales)
+            {
+                <meta property="og:locale:alternate" content="@locale" />
+            }
+        }
+    }
+
+    @* Twitter Card Tags *@
+    if (Model.IncludeTwitterCard && meta.TwitterCard is not null)
+    {
+        var tc = meta.TwitterCard;
+
+        if (!string.IsNullOrEmpty(tc.Card))
+        {
+            <meta name="twitter:card" content="@tc.Card" />
+        }
+        if (!string.IsNullOrEmpty(tc.Site))
+        {
+            <meta name="twitter:site" content="@tc.Site" />
+        }
+        if (!string.IsNullOrEmpty(tc.Creator))
+        {
+            <meta name="twitter:creator" content="@tc.Creator" />
+        }
+        if (!string.IsNullOrEmpty(tc.Title))
+        {
+            <meta name="twitter:title" content="@tc.Title" />
+        }
+        if (!string.IsNullOrEmpty(tc.Description))
+        {
+            <meta name="twitter:description" content="@tc.Description" />
+        }
+        if (!string.IsNullOrEmpty(tc.Image))
+        {
+            <meta name="twitter:image" content="@tc.Image" />
+            if (!string.IsNullOrEmpty(tc.ImageAlt))
+            {
+                <meta name="twitter:image:alt" content="@tc.ImageAlt" />
+            }
+        }
+    }
+
+    @* Alternate Language Links *@
+    if (Model.IncludeAlternates && meta.AlternateLinks?.Any() == true)
+    {
+        foreach (var alt in meta.AlternateLinks)
+        {
+            <link rel="alternate" hreflang="@alt.Hreflang" href="@alt.Href" />
+        }
+    }
+
+    @* Custom Meta Tags *@
+    if (meta.CustomMeta?.Any() == true)
+    {
+        foreach (var custom in meta.CustomMeta)
+        {
+            <meta name="@custom.Key" content="@custom.Value" />
+        }
+    }
+}

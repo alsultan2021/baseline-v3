@@ -1,0 +1,39 @@
+@model Baseline.Localization.Components.LanguageSelectorViewModel
+
+@* Inline variant for header *@
+@if (Model.Languages.Count > 1)
+{
+    <nav class="language-selector-inline" aria-label="Language selection">
+        <ul class="list-inline mb-0">
+            @foreach (var lang in Model.Languages)
+            {
+                <li class="list-inline-item">
+                    @if (lang.IsCurrent)
+                    {
+                        <span class="text-primary fw-bold" aria-current="page">
+                            @if (Model.ShowFlags && !string.IsNullOrEmpty(lang.FlagUrl))
+                            {
+                                <img src="@lang.FlagUrl" alt="" class="language-flag me-1" width="20" height="15" />
+                            }
+                            @lang.Code.ToUpperInvariant()
+                        </span>
+                    }
+                    else
+                    {
+                        <a href="@lang.Url" hreflang="@lang.Code" class="text-decoration-none">
+                            @if (Model.ShowFlags && !string.IsNullOrEmpty(lang.FlagUrl))
+                            {
+                                <img src="@lang.FlagUrl" alt="" class="language-flag me-1" width="20" height="15" />
+                            }
+                            @lang.Code.ToUpperInvariant()
+                        </a>
+                    }
+                </li>
+                @if (lang != Model.Languages.Last())
+                {
+                    <li class="list-inline-item text-muted">|</li>
+                }
+            }
+        </ul>
+    </nav>
+}

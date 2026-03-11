@@ -1,0 +1,31 @@
+@model Baseline.Localization.Components.LanguageSelectorViewModel
+
+@* List variant for footer or sidebar *@
+@if (Model.Languages.Count > 1)
+{
+    <nav class="language-selector-list" aria-label="Language selection">
+        <ul class="list-unstyled mb-0">
+            @foreach (var lang in Model.Languages)
+            {
+                <li class="@(lang.IsCurrent ? "fw-bold" : "")">
+                    <a href="@lang.Url" hreflang="@lang.Code"
+                        class="text-decoration-none @(lang.IsCurrent ? "text-primary" : "")" @(lang.IsCurrent ?
+                                                                                                             "aria-current=\"page\"" : "")>
+                        @if (Model.ShowFlags && !string.IsNullOrEmpty(lang.FlagUrl))
+                        {
+                            <img src="@lang.FlagUrl" alt="" class="language-flag me-2" width="20" height="15" />
+                        }
+                        @if (Model.ShowNativeNames)
+                        {
+                            @lang.NativeName
+                        }
+                        else
+                        {
+                            @lang.Name
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

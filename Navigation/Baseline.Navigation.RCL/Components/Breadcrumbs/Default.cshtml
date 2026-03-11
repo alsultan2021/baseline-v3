@@ -1,0 +1,47 @@
+@model Baseline.Navigation.Components.BreadcrumbsViewModel
+
+@if (Model.Items.Any())
+{
+    <nav aria-label="Breadcrumb" class="baseline-breadcrumbs">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            @{
+                var allItems = Model.Items.ToList();
+                // Filter out home item if IncludeHome is false (home is typically position 1 with "/" URL)
+                var items = Model.IncludeHome
+                    ? allItems
+                    : allItems.Where(i => i.Url != "/").ToList();
+                var position = 1;
+                var renderedCount = 0;
+            }
+            @foreach (var item in items)
+            {
+                var isLast = item == items.Last();
+                var shouldRender = !isLast || Model.IncludeCurrent;
+
+                if (shouldRender)
+                {
+                    @if (renderedCount > 0 && !string.IsNullOrEmpty(Model.Separator))
+                    {
+                        <li class="breadcrumb-separator" aria-hidden="true">@Model.Separator</li>
+                    }
+                    <li class="breadcrumb-item @(isLast ? "active" : "")"          itemprop="itemListElement"     itemscope
+                        itemtype="https://schema.org/ListItem"            aria-current="@(isLast ? "page" : null)">
+                        @if (!isLast && !string.IsNullOrEmpty(item.Url))
+                        {
+                            <a href="@item.Url" itemprop="item">
+                                <span itemprop="name">@item.Name</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <span itemprop="name">@item.Name</span>
+                        }
+                        <meta itemprop="position" content="@position" />
+                    </li>
+                    position++;
+                    renderedCount++;
+                }
+            }
+        </ol>
+    </nav>
+}

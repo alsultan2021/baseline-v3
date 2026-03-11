@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Automation</AssemblyName>
+        <RootNamespace>Baseline.Automation</RootNamespace>
+        <Description>Baseline v3 Automation Engine - Contact-based workflow automation for Xperience by Kentico, independent of ecommerce</Description>
+        <PackageTags>kentico;xperience;baseline;automation;workflow;contacts;marketing</PackageTags>
+        <!-- Suppress NuGet downgrade warnings from Kentico.Xperience.WebApp transitive deps -->
+        <NoWarn>$(NoWarn);NU1605</NoWarn>
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <!-- Must match RegisterClientModule orgName and webpack config -->
+        <AdminOrgName>baseline</AdminOrgName>
+        <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <SkipNpmBuild Condition="'$(SkipNpmBuild)' == '' AND '$(Configuration)' == 'Debug'">true</SkipNpmBuild>
+    </PropertyGroup>
+
+    <!-- Enable Kentico class discovery for Info classes and object types -->
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.3" />
+    </ItemGroup>
+
+
+
+    <!-- Admin client React/TypeScript files -->
+    <ItemGroup>
+        <AdminClientPath Include="Client\dist\**">
+            <ProjectName>automation</ProjectName>
+        </AdminClientPath>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Client\node_modules\**" />
+        <EmbeddedResource Remove="Client\node_modules\**" />
+        <None Remove="Client\node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Client\dist\" />
+    </ItemGroup>
+
+    <!-- npm install before build -->
+    <Target Name="NpmInstall" BeforeTargets="NpmBuildClient" Condition="'$(SkipNpmBuild)' != 'true'">
+        <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
+    </Target>
+
+    <!-- npm build before .NET build -->
+    <Target Name="NpmBuildClient" BeforeTargets="BeforeBuild" Condition="'$(SkipNpmBuild)' != 'true'">
+        <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
+    </Target>
+
+</Project>
+

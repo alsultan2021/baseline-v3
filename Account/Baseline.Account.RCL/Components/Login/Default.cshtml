@@ -1,0 +1,65 @@
+@model Baseline.Account.Components.LoginFormViewModel
+
+<div class="baseline-login-form">
+    <form asp-controller="Account" asp-action="Login" method="post" novalidate>
+        <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <div class="mb-3">
+            <label for="Username" class="form-label">Email or Username</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="Username" 
+                   name="Username"
+                   value="@Model.Username"
+                   required
+                   autocomplete="username"
+                   aria-describedby="usernameHelp" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Password" class="form-label">Password</label>
+            <input type="password" 
+                   class="form-control" 
+                   id="Password" 
+                   name="Password"
+                   required
+                   autocomplete="current-password" />
+        </div>
+
+        @if (Model.ShowRememberMe)
+        {
+            <div class="mb-3 form-check">
+                <input type="checkbox" 
+                       class="form-check-input" 
+                       id="RememberMe" 
+                       name="RememberMe"
+                       value="true" />
+                <label class="form-check-label" for="RememberMe">Remember me</label>
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+
+        <div class="mt-3 text-center">
+            @if (Model.ShowForgotPassword)
+            {
+                <a asp-controller="Account" asp-action="ForgotPassword" class="d-block mb-2">
+                    Forgot your password?
+                </a>
+            }
+
+            @if (Model.ShowRegisterLink)
+            {
+                <span>Don't have an account? </span>
+                <a asp-controller="Account" asp-action="Register">Sign up</a>
+            }
+        </div>
+    </form>
+</div>

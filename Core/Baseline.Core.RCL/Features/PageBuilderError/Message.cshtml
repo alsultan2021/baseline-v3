@@ -1,0 +1,65 @@
+@model Baseline.Core.RCL.Features.PageBuilderError.PageBuilderMessageViewModel
+@{
+    var containerClass = Model.Inline ? "pb-message-inline" : "pb-message-block";
+    var typeClass = Model.IsError ? "pb-message-error" : "pb-message-info";
+}
+
+<div class="pb-message @containerClass @typeClass">
+    @if (Model.IsError)
+    {
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pb-message-icon">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+    }
+    else
+    {
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pb-message-icon">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+    }
+    <span class="pb-message-text">@Model.Message</span>
+</div>
+
+<style>
+    .pb-message {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .pb-message-inline {
+        display: inline-flex;
+    }
+    
+    .pb-message-block {
+        display: flex;
+    }
+    
+    .pb-message-error {
+        background-color: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+    
+    .pb-message-info {
+        background-color: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #bfdbfe;
+    }
+    
+    .pb-message-icon {
+        flex-shrink: 0;
+    }
+    
+    .pb-message-text {
+        flex-grow: 1;
+    }
+</style>

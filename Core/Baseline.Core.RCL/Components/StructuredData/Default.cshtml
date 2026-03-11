@@ -1,0 +1,8 @@
+@model Baseline.Core.Components.StructuredDataViewModel
+
+@if (!string.IsNullOrEmpty(Model.JsonLd))
+{
+    <script type="application/ld+json">
+        @Html.Raw(Model.JsonLd)
+    </script>
+}

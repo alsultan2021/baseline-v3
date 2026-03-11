@@ -1,0 +1,82 @@
+@model Baseline.Account.Components.RegistrationFormViewModel
+
+<div class="baseline-registration-form">
+    <form asp-controller="Account" asp-action="Register" method="post" novalidate>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        @if (Model.ValidationErrors.Any())
+        {
+            <div class="alert alert-danger" role="alert">
+                <ul class="mb-0">
+                    @foreach (var error in Model.ValidationErrors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="FirstName" class="form-label">First Name</label>
+                <input type="text"     class="form-control"       id="FirstName"         name="FirstName"          value="@Model.FirstName"
+                       required              autocomplete="given-name" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="LastName" class="form-label">Last Name</label>
+                <input type="text"                 class="form-control" id="LastName" name="LastName"                       value="@Model.LastName" required
+                       autocomplete="family-name" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="Email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="Email" name="Email"                  value="@Model.Email"               required
+                   autocomplete="email" />
+            @if (Model.RequireEmailConfirmation)
+            {
+                <div id="emailHelp" class="form-text">
+                    We'll send a confirmation email to this address.
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="Password" class="form-label">Password</label>
+            <input type="password"     class="form-control"   id="Password" name="Password" required
+                   autocomplete="new-password"         aria-describedby="passwordHelp" />
+            <div id="passwordHelp" class="form-text">
+                Use at least 8 characters with a mix of letters, numbers, and symbols.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+            <input type="password"                   class="form-control"                  id="ConfirmPassword"                name="ConfirmPassword"             required
+                   autocomplete="new-password" />
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox"              class="form-check-input"            id="AcceptTerms"          name="AcceptTerms"       value="true"    required />
+            <label class="form-check-label" for="AcceptTerms">
+                I accept the <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                and <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+
+        @if (Model.ShowLoginLink)
+        {
+            <div class="mt-3 text-center">
+                <span>Already have an account? </span>
+                <a asp-controller="Account" asp-action="Login">Sign in</a>
+            </div>
+        }
+    </form>
+</div>

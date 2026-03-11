@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Baseline.TabbedPages.RCL</RootNamespace>
+        <AssemblyName>Baseline.TabbedPages.RCL</AssemblyName>
+        <Description>Baseline v3 TabbedPages RCL - Razor views, view components, and tag helpers for tabbed pages</Description>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <StaticWebAssetBasePath>_content/Baseline.TabbedPages.RCL</StaticWebAssetBasePath>
+    </PropertyGroup>
+
+    <!-- Exclude _ViewImports.cshtml from publish to avoid conflicts with other RCLs -->
+    <ItemGroup>
+        <Content Update="_ViewImports.cshtml" Pack="false" CopyToPublishDirectory="Never" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.TabbedPages\Baseline.TabbedPages.csproj" />
+        <ProjectReference Include="..\..\Core\Baseline.Core.RCL\Baseline.Core.RCL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <RootNamespace>Baseline.Core</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Description>Baseline v3 Core - Foundation services for Xperience by Kentico including SEO, caching, structured data, and content retrieval.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CSharpFunctionalExtensions" Version="3.7.0" />
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.MiniProfiler" Version="$(MiniProfilerVersion)" />
+        <PackageReference Include="Twilio" Version="7.14.3" />
+        <PackageReference Include="OpenTelemetry" Version="1.15.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings.Core" Version="$(ChannelSettingsVersion)" />
+        <PackageReference Include="XperienceCommunity.MemberRoles" Version="$(MemberRolesVersion)" />
+        <PackageReference Include="XperienceCommunity.DevTools.MVCCaching" Version="$(MVCCachingVersion)" />
+        <PackageReference Include="XperienceCommunity.DevTools.QueryExtensions" Version="$(QueryExtensionsVersion)" />
+        <PackageReference Include="XperienceCommunity.RelationshipsExtended.Core" Version="$(RelationshipsExtendedVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

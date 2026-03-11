@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Account</AssemblyName>
+        <RootNamespace>Baseline.Account</RootNamespace>
+        <Description>Baseline v3 Account module - Authentication and user management for Xperience by Kentico</Description>
+        <PackageTags>kentico;xperience;baseline;account;authentication;identity</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="CSharpFunctionalExtensions" Version="3.7.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="UAParser" Version="3.1.47" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings" Version="$(ChannelSettingsVersion)" />
+        <PackageReference Include="XperienceCommunity.MemberRoles" Version="$(MemberRolesVersion)" />
+        <!-- External authentication providers -->
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="10.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="10.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.3" />
+        <!-- WebAuthn/Passkey for biometric authentication -->
+        <PackageReference Include="Fido2.AspNet" Version="4.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Baseline.Core\Baseline.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

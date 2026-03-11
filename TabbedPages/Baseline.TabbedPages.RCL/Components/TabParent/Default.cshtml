@@ -1,0 +1,28 @@
+@model Baseline.TabbedPages.Components.TabParentViewModel
+
+<div class="tab-parent-container">
+    @if (!string.IsNullOrEmpty(Model.Title))
+    {
+        <h2 class="tab-parent-title h3 mb-3">@Model.Title</h2>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Description))
+    {
+        <p class="tab-parent-description text-muted mb-4">@Model.Description</p>
+    }
+
+    @* Render the tabs navigation *@
+    @await Component.InvokeAsync("TabbedPage", new { 
+        parentPageId = Model.ParentPageId, 
+        currentPageId = Model.ActiveTabId,
+        variant = Model.Variant 
+    })
+
+    @if (Model.ShowContent)
+    {
+        <div class="tab-content">
+            @* Content is typically rendered by the child page, not here *@
+            @* This placeholder is for AJAX-loaded content scenarios *@
+        </div>
+    }
+</div>

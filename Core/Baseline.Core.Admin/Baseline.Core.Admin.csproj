@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <RootNamespace>Baseline.Core.Admin</RootNamespace>
+        <Description>Baseline v3 Core Admin - Admin UI customizations and module registration for Xperience by Kentico.</Description>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <!-- Must match RegisterClientModule orgName and webpack orgName -->
+        <AdminOrgName>baseline</AdminOrgName>
+        <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <SkipNpmBuild Condition="'$(SkipNpmBuild)' == '' AND '$(Configuration)' == 'Debug'">true</SkipNpmBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.3" />
+        <PackageReference Include="XperienceCommunity.MemberRoles.Admin" Version="$(MemberRolesVersion)" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings.Admin" Version="$(ChannelSettingsVersion)" />
+    </ItemGroup>
+
+    <!-- Embedded resources for admin UI -->
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*" />
+    </ItemGroup>
+
+    <!-- Admin client React/TypeScript files -->
+    <ItemGroup>
+        <AdminClientPath Include="Client\dist\**">
+            <ProjectName>core-admin</ProjectName>
+        </AdminClientPath>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Client\node_modules\**" />
+        <EmbeddedResource Remove="Client\node_modules\**" />
+        <None Remove="Client\node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Client\dist\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Core\Baseline.Core.csproj" />
+        <ProjectReference Include="..\..\Ecommerce\Baseline.Ecommerce\Baseline.Ecommerce.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

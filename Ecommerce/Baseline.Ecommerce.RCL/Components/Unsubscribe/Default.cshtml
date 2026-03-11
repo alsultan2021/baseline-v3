@@ -1,0 +1,60 @@
+@model Baseline.Ecommerce.Components.UnsubscribeViewModel
+
+<div class="unsubscribe-container text-center py-5">
+    @if (Model.IsConfirmed)
+    {
+        <div class="mb-4">
+            <i class="feather icon-feather-check-circle text-success" style="font-size: 4rem;" aria-hidden="true"></i>
+        </div>
+        <h1 class="h3 mb-3">You've Been Unsubscribed</h1>
+        <p class="text-muted mb-4">
+            We've removed <strong>@Model.Email</strong> from our mailing list.
+            You won't receive any more emails from us.
+        </p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+            Return to Homepage
+        </a>
+    }
+    else if (!Model.IsValid)
+    {
+        <div class="mb-4">
+            <i class="feather icon-feather-alert-circle text-danger" style="font-size: 4rem;" aria-hidden="true"></i>
+        </div>
+        <h1 class="h3 mb-3">Invalid Request</h1>
+        <p class="text-muted mb-4">
+            @(Model.ErrorMessage ?? "This unsubscribe link is invalid or has expired.")
+        </p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+            Return to Homepage
+        </a>
+    }
+    else
+    {
+        <div class="mb-4">
+            <i class="feather icon-feather-mail text-primary" style="font-size: 4rem;" aria-hidden="true"></i>
+        </div>
+        <h1 class="h3 mb-3">Unsubscribe from Emails</h1>
+        <p class="text-muted mb-4">
+            Are you sure you want to unsubscribe <strong>@Model.Email</strong> from our mailing list?
+        </p>
+
+        <form asp-controller="Subscription" asp-action="ConfirmUnsubscribe" method="post" class="d-inline-block">
+            <input type="hidden" name="email" value="@Model.Email" />
+            <input type="hidden" name="hash" value="@Model.Hash" />
+            @if (Model.NewsletterId.HasValue)
+            {
+                <input type="hidden" name="newsletterId" value="@Model.NewsletterId" />
+            }
+
+            <div class="d-flex gap-3 justify-content-center">
+                <button type="submit" class="btn btn-danger">
+                    <i class="feather icon-feather-x-circle me-2" aria-hidden="true"></i>
+                    Yes, Unsubscribe
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    }
+</div>

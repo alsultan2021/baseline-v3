@@ -1,0 +1,4 @@
+# Baseline.Ecommerce.Admin Resources
+
+This folder contains embedded resources for the Baseline Ecommerce Admin module.
+Add localization files (.resx) or other resources here as needed.

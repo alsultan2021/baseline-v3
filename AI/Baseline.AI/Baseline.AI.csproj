@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Baseline.AI</RootNamespace>
+        <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <Description>Baseline AI integration module for Xperience by Kentico - provides AI-powered search, embeddings, and chatbot capabilities using a pluggable provider architecture.</Description>
+        <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+        <EmbeddedResource Include="wwwroot\**\*" />
+        <Content Include="Views\**\*" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PackageId>XperienceCommunity.Baseline.AI</PackageId>
+        <Version>$(BaselineVersion)</Version>
+        <PackageTags>Kentico;Xperience;AI;OpenAI;Azure;Search;Embeddings;RAG;Chatbot</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="Microsoft.SemanticKernel" Version="1.73.0" />
+        <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.73.0" />
+        <PackageReference Include="OpenAI" Version="2.9.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Baseline.Core\Baseline.Core.csproj" />
+        <ProjectReference Include="..\..\Experiments\Baseline.Experiments\Baseline.Experiments.csproj" />
+        <ProjectReference Include="..\..\Search\Baseline.Search\Baseline.Search.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

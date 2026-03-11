@@ -1,0 +1,53 @@
+@model Baseline.Account.RCL.Features.LogIn.TwoFactorAuthenticationViewModel
+@{
+    ViewData["Title"] = "Two-Factor Authentication";
+}
+
+<div class="two-factor-container">
+    <h1>Two-Factor Authentication</h1>
+    
+    <p>A verification code has been sent to your email. Please enter it below.</p>
+    
+    @if (!string.IsNullOrEmpty(Model?.Error))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.Error</p>
+        </div>
+    }
+    
+    <form method="post" asp-controller="LogIn" asp-action="TwoFactorAuthentication">
+        @Html.AntiForgeryToken()
+        
+        <input type="hidden" asp-for="UserName" />
+        <input type="hidden" asp-for="RedirectUrl" />
+        <input type="hidden" asp-for="StayLoggedIn" />
+        
+        <div class="form-group">
+            <label asp-for="VerificationCode">Verification Code</label>
+            <input asp-for="VerificationCode" type="text" class="form-control" 
+                   pattern="[0-9]*" inputmode="numeric" autocomplete="one-time-code" 
+                   required autofocus />
+            <span asp-validation-for="VerificationCode" class="text-danger"></span>
+        </div>
+        
+        <div class="form-check">
+            <input asp-for="RememberDevice" type="checkbox" class="form-check-input" />
+            <label asp-for="RememberDevice" class="form-check-label">Remember this device</label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Verify</button>
+    </form>
+    
+    <div class="resend-code">
+        <p>Didn't receive a code?</p>
+        <form method="post" asp-controller="LogIn" asp-action="ResendVerificationCode">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="UserName" value="@Model?.UserName" />
+            <button type="submit" class="btn btn-link">Resend Code</button>
+        </form>
+    </div>
+    
+    <p class="mt-3">
+        <a href="/Account/LogIn">Back to Login</a>
+    </p>
+</div>

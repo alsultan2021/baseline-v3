@@ -1,0 +1,142 @@
+@model Baseline.Account.Components.ProfileViewModel
+
+@if (Model.Profile is not null)
+{
+    <div class="baseline-profile">
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success" role="alert">
+                @Model.SuccessMessage
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        @if (Model.ShowProfilePicture)
+        {
+            <div class="profile-picture-section mb-4 text-center">
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfilePictureUrl))
+                {
+                    <img src="@Model.Profile.ProfilePictureUrl" 
+                         alt="@Model.Profile.DisplayName's profile picture"
+                         class="rounded-circle profile-picture"
+                         width="150" 
+                         height="150" />
+                }
+                else
+                {
+                    <div class="profile-picture-placeholder rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
+                         style="width: 150px; height: 150px; font-size: 3rem;">
+                        @Model.Profile.DisplayName?.FirstOrDefault()
+                    </div>
+                }
+
+                @if (Model.ShowEditForm)
+                {
+                    <form asp-controller="Account" 
+                          asp-action="UploadProfilePicture" 
+                          method="post" 
+                          enctype="multipart/form-data"
+                          class="mt-2">
+                        <input type="file" 
+                               name="profilePicture" 
+                               accept="image/*" 
+                               class="form-control form-control-sm" />
+                        <button type="submit" class="btn btn-sm btn-outline-primary mt-2">
+                            Update Picture
+                        </button>
+                    </form>
+                }
+            </div>
+        }
+
+        @if (Model.ShowEditForm)
+        {
+            <form asp-controller="Account" asp-action="UpdateProfile" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="FirstName" class="form-label">First Name</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="FirstName" 
+                               name="FirstName"
+                               value="@Model.Profile.FirstName" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="LastName" class="form-label">Last Name</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="LastName" 
+                               name="LastName"
+                               value="@Model.Profile.LastName" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="DisplayName" class="form-label">Display Name</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="DisplayName" 
+                           name="DisplayName"
+                           value="@Model.Profile.DisplayName" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" 
+                           class="form-control" 
+                           id="Email"
+                           value="@Model.Profile.Email"
+                           disabled
+                           readonly />
+                    <div class="form-text">Email cannot be changed.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+
+            <hr class="my-4" />
+
+            <div class="password-section">
+                <h5>Change Password</h5>
+                <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-outline-secondary">
+                    Change Password
+                </a>
+            </div>
+
+            @if (Model.ShowDeleteOption)
+            {
+                <hr class="my-4" />
+                <div class="danger-zone">
+                    <h5 class="text-danger">Danger Zone</h5>
+                    <p class="text-muted">Once you delete your account, there is no going back.</p>
+                    <a asp-controller="Account" asp-action="DeleteAccount" class="btn btn-outline-danger">
+                        Delete Account
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="profile-info">
+                <h4>@Model.Profile.DisplayName</h4>
+                <p class="text-muted">@Model.Profile.Email</p>
+                @if (!string.IsNullOrEmpty(Model.Profile.Bio))
+                {
+                    <p>@Model.Profile.Bio</p>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        Please <a asp-controller="Account" asp-action="Login">sign in</a> to view your profile.
+    </div>
+}

@@ -1,0 +1,125 @@
+@using Baseline.Forms.Localization.Models
+
+@* Renders a single LocalizedFormField with the appropriate HTML input control.
+   All labels, placeholders, and validation messages come from the already-localised
+   LocalizedFormField — no translation logic lives here. *@
+
+<div class="form-group @(HasError ? "has-error" : "")">
+
+    @* Label *@
+    <label for="@InputId" class="form-label">
+        @Field.Caption
+        @if (Field.IsRequired)
+        {
+            <span class="required" aria-hidden="true"> *</span>
+        }
+    </label>
+
+    @* Input *@
+    @switch (ResolvedInputType)
+    {
+        case "textarea":
+            <textarea id="@InputId"
+                      name="@Field.Name"
+                      class="form-control @(HasError ? "is-invalid" : "")"
+                      placeholder="@Field.Placeholder"
+                      required="@Field.IsRequired"
+                      @oninput="OnValueChanged">@(Value?.ToString() ?? "")</textarea>
+            break;
+
+        case "checkbox":
+            <input id="@InputId"
+                   name="@Field.Name"
+                   type="checkbox"
+                   class="form-check-input @(HasError ? "is-invalid" : "")"
+                   checked="@(Value is true || "true".Equals(Value?.ToString(), StringComparison.OrdinalIgnoreCase))"
+                   @onchange="OnCheckboxChanged" />
+            break;
+
+        case "select":
+            <select id="@InputId"
+                    name="@Field.Name"
+                    class="form-select @(HasError ? "is-invalid" : "")"
+                    required="@Field.IsRequired"
+                    @onchange="OnValueChanged">
+                <option value="">@(Field.Placeholder ?? "— select —")</option>
+                @foreach (var option in Field.Options ?? [])
+                {
+                    <option value="@option.Value"
+                            selected="@(option.Value == Value?.ToString())">
+                        @option.Text
+                    </option>
+                }
+            </select>
+            break;
+
+        default:
+            <input id="@InputId"
+                   name="@Field.Name"
+                   type="@ResolvedInputType"
+                   class="form-control @(HasError ? "is-invalid" : "")"
+                   placeholder="@Field.Placeholder"
+                   value="@Value?.ToString()"
+                   required="@Field.IsRequired"
+                   @oninput="OnValueChanged" />
+            break;
+    }
+
+    @* Help text *@
+    @if (!string.IsNullOrEmpty(Field.HelpText))
+    {
+        <div class="form-text">@Field.HelpText</div>
+    }
+
+    @* Validation error *@
+    @if (HasError)
+    {
+        <div class="invalid-feedback d-block" role="alert">@ErrorMessage</div>
+    }
+</div>
+
+@code {
+    /// <summary>The localised field definition supplied by <see cref="DynamicForm"/>.</summary>
+    [Parameter, EditorRequired] public LocalizedFormField Field { get; set; } = null!;
+
+    /// <summary>Current value bound from the parent's data dictionary.</summary>
+    [Parameter] public object? Value { get; set; }
+
+    /// <summary>Fires when the value changes; parent updates its data dictionary.</summary>
+    [Parameter] public EventCallback<(string Name, object? Value)> OnValueChange { get; set; }
+
+    /// <summary>Localised validation error to display beneath this field, or null.</summary>
+    [Parameter] public string? ErrorMessage { get; set; }
+
+    private string InputId => $"field_{Field.Name}";
+    private bool HasError => !string.IsNullOrEmpty(ErrorMessage);
+
+    /// <summary>
+    /// Maps <see cref="LocalizedFormField.DataType"/> / <see cref="LocalizedFormField.ComponentType"/>
+    /// to an HTML input type (or "textarea" / "select").
+    /// </summary>
+    private string ResolvedInputType => Field.ComponentType?.ToLowerInvariant() switch
+    {
+        "kentico.formbuilder.component.textarea"    => "textarea",
+        "kentico.formbuilder.component.dropdown"    => "select",
+        "kentico.formbuilder.component.radiobuttonlist" => "select",
+        "kentico.formbuilder.component.checkboxes"  => "checkbox",
+        _ => Field.DataType?.ToLowerInvariant() switch
+        {
+            "boolean"  => "checkbox",
+            "date"     => "date",
+            "datetime" => "datetime-local",
+            "integer"  or "double" or "decimal" or "float" => "number",
+            "longtext" => "textarea",
+            "email"    => "email",
+            _ when Field.Options is { Count: > 0 } => "select",
+            _ => "text"
+        }
+    };
+
+    private Task OnValueChanged(ChangeEventArgs e) =>
+        OnValueChange.InvokeAsync((Field.Name, e.Value));
+
+    private Task OnCheckboxChanged(ChangeEventArgs e) =>
+        OnValueChange.InvokeAsync((Field.Name, e.Value is true || "true".Equals(e.Value?.ToString(), StringComparison.OrdinalIgnoreCase)));
+}

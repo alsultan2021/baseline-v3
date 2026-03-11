@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Baseline.TabbedPages.Admin</RootNamespace>
+        <AssemblyName>Baseline.TabbedPages.Admin</AssemblyName>
+        <Description>Baseline v3 TabbedPages Admin module - admin UI for tabbed content management</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
+        <PackageReference Include="XperienceCommunity.MemberRoles.Admin" Version="$(MemberRolesVersion)" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings.Admin" Version="$(ChannelSettingsVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.TabbedPages\Baseline.TabbedPages.csproj" />
+        <ProjectReference Include="..\..\Core\Baseline.Core.Admin\Baseline.Core.Admin.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

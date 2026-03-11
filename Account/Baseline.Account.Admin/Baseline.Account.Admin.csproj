@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Account.Admin</AssemblyName>
+        <RootNamespace>Baseline.Account.Admin</RootNamespace>
+        <Description>Baseline v3 Account Admin module - Admin UI customizations for user management</Description>
+        <PackageTags>kentico;xperience;baseline;account;admin</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings.Admin" Version="$(ChannelSettingsVersion)" />
+        <PackageReference Include="XperienceCommunity.MemberRoles.Admin" Version="$(MemberRolesVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Account\Baseline.Account.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

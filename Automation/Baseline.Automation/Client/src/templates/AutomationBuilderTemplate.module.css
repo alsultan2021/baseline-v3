@@ -1,0 +1,948 @@
+.inline div {
+  row-gap: 12px;
+}
+
+/* Flex wrapper for canvas — takes remaining space beside the side menu */
+.canvasFlexWrapper {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  position: relative;
+}
+
+/* React Flow canvas wrapper */
+.canvasWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #fff;
+}
+
+/* Hide React Flow zoom controls (native builder has none visible) */
+.canvasWrapper :global(.react-flow__controls) {
+  display: none;
+}
+
+/* Handle styling — matches native 6px gray dots */
+.canvasWrapper :global(.react-flow__handle) {
+  visibility: visible !important;
+  background: rgb(140, 140, 140) !important;
+  border: 0 !important;
+}
+
+/* Wrapper for step nodes — establishes positioning context for absolute label */
+.nodeWrapper {
+  position: relative;
+}
+
+/* "Starting line" label above trigger — matches native absolute positioning */
+.startingLineLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: -35px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-default, #151515);
+  pointer-events: none;
+}
+
+/* Custom step node — matches native Kentico node styling */
+.stepNode {
+  width: 260px;
+  min-height: 62px;
+  border-radius: 8px;
+  border: 0.625px solid #dfdfdf;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: var(--color-paper-background, #fff);
+  cursor: pointer;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-default, #151515);
+  position: relative;
+  pointer-events: all;
+  box-sizing: border-box;
+  box-shadow:
+    rgba(38, 38, 38, 0.08) 0px 8px 14px 0px,
+    rgba(38, 38, 38, 0.03) 0px 0px 8px 0px;
+}
+
+.stepNode:hover {
+  border-color: var(--color-product, #7f09b7);
+}
+
+.stepNodeDisabled {
+  cursor: default;
+}
+
+.stepNodeDisabled:hover {
+  border-color: var(--color-border-default, #d0d0d0);
+}
+
+/* Three-dot menu wrapper */
+.menuBtnWrap {
+  margin-left: auto;
+  position: relative;
+}
+
+/* Three-dot menu button on node (matches native "..." button) */
+.menuBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.menuBtn:hover {
+  color: var(--color-text-default, #272727);
+}
+
+/* Dropdown popup */
+.menuPopup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow:
+    rgba(38, 38, 38, 0.16) 0px 8px 16px 0px,
+    rgba(38, 38, 38, 0.03) 0px 0px 8px 0px;
+  padding: 0 16px;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-default, #272727);
+  background: none;
+  border: none;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.menuItem:hover {
+  opacity: 0.8;
+}
+
+.menuItemDelete {
+  composes: menuItem;
+  color: var(--color-text-error, #d32f2f);
+}
+
+.menuItemDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.menuDivider {
+  height: 1px;
+  background: var(--color-border-default, #d0d0d0);
+}
+
+/* Placeholder node — dashed border, native-style */
+.placeholderNode {
+  width: 260px;
+  min-height: 46px;
+  border-radius: 8px;
+  border: 0.625px dashed rgb(140, 140, 140);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #fff;
+  cursor: pointer;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-product, #7f09b7);
+  pointer-events: all;
+  box-sizing: border-box;
+}
+
+.placeholderLabel {
+  font-weight: 700;
+}
+
+.placeholderNode:hover {
+  border-color: var(--color-product, #7c3aed);
+}
+
+/* Add button on edge — matches native purple gradient pill */
+/* Icon border around step icons — matches native icon-border styling */
+.iconBorder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  border: 0.625px solid rgb(140, 140, 140);
+  border-radius: 8px;
+  padding: 4px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.addBtn {
+  border-radius: 5000px;
+  border: none;
+  background: linear-gradient(
+    303.62deg,
+    rgb(198, 67, 0) -109.97%,
+    rgb(127, 9, 183) 87.4%
+  );
+  color: #fff;
+  cursor: pointer;
+  width: 16px;
+  height: 24px;
+  font-size: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  opacity: 0.2;
+  box-shadow:
+    rgba(203, 142, 255, 0.4) 0px 1px 8px,
+    rgba(189, 94, 255, 0.1) 0px 5px 11px;
+  transition:
+    background-color 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+    color 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.addBtn:hover {
+  opacity: unset;
+  background: linear-gradient(
+    303.62deg,
+    rgb(149, 48, 0) -109.97%,
+    rgb(93, 0, 136) 87.4%
+  );
+}
+
+/* Condition step true/false handles — matches native green check / red X */
+.conditionHandles {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.conditionHandleWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.conditionHandleTrue {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00897b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conditionHandleFalse {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e53935;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conditionHandleDot {
+  position: relative !important;
+  transform: none !important;
+  left: auto !important;
+  bottom: auto !important;
+}
+
+/* Statistics-view condition source handles — override canvasWrapper !important */
+.canvasWrapper :global(.react-flow__handle).conditionSourceTrue {
+  background: #007d72 !important;
+  border: 1px solid #fff !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+}
+
+.canvasWrapper :global(.react-flow__handle).conditionSourceFalse {
+  background: #e10007 !important;
+  border: 1px solid #fff !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+}
+
+/* Dialog overlay — matches native Kentico dialog backdrop */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialogContent {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 620px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  color: var(--color-text-default, #272727);
+}
+
+.dialogHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text-default, #272727);
+}
+
+.dialogClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  display: flex;
+  align-items: center;
+}
+
+.dialogClose:hover {
+  color: var(--color-text-default, #272727);
+}
+
+/* Search input in dialog */
+.searchInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-default, #d0d0d0);
+  border-radius: 5000px;
+  font-size: 0.875rem;
+  outline: none;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  color: var(--color-text-default, #272727);
+}
+
+.searchInput:focus {
+  border-color: var(--color-product, #7c3aed);
+}
+
+/* Tile grid — matches native vertical card layout (icon on top, label below) */
+.tileGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tileItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 128px;
+  height: 128px;
+  border: 1px solid #dfdfdf;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  text-align: center;
+  color: var(--color-text-default, #272727);
+}
+
+.tileItem :global(svg) {
+  width: 40px;
+  height: 40px;
+}
+
+.tileItem:hover {
+  border-color: var(--color-product, #7c3aed);
+  background: var(--color-background-primary-faded, #f5f0ff);
+}
+
+.tileLabel {
+  font-weight: 500;
+  font-size: 0.8125rem;
+  color: var(--color-text-default, #272727);
+}
+
+/* Step settings side panel — matches native wrapper/side-panel */
+.sidePanelOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 48px;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.sidePanel {
+  position: fixed;
+  top: 8px;
+  right: 48px;
+  bottom: 8px;
+  width: 760px;
+  max-width: calc(100% - 48px);
+  background: #fff;
+  box-shadow:
+    rgba(38, 38, 38, 0.16) 0px 8px 16px 0px,
+    rgba(38, 38, 38, 0.03) 0px 0px 8px 0px;
+  display: flex;
+  flex-direction: column;
+  z-index: 3000;
+  border-radius: 8px;
+}
+
+.sidePanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  flex-shrink: 0;
+}
+
+.sidePanelHeadline {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-default-on-light, #262626);
+}
+
+.sidePanelClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--color-text-default-on-light, #262626);
+}
+
+.sidePanelClose:hover {
+  background: var(--color-background-hover, #f5f5f5);
+}
+
+.sidePanelDivider {
+  height: 0;
+  border-top: 1px solid var(--color-divider-default, #dfdfdf);
+  flex-shrink: 0;
+}
+
+.sidePanelContent {
+  flex: 1;
+  overflow: auto;
+  padding: 3px 24px 0;
+}
+
+.sidePanelFooter {
+  padding: 24px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Form fields */
+.formField {
+  margin-bottom: 20px;
+}
+
+/* Collapsible Identifiers section — matches native CodeNameComponent */
+.identifiersSection {
+  margin-top: 8px;
+  padding-top: 12px;
+}
+
+.identifiersToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text-default-on-light, #525252);
+  width: 100%;
+  text-align: left;
+}
+
+.identifiersToggle:hover {
+  color: var(--color-product, #7f09b7);
+}
+
+.identifiersToggle :global(svg) {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.identifiersChevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.identifiersToggle:hover .identifiersChevron {
+  background: rgba(156, 136, 127, 0.3);
+}
+
+.identifiersContent {
+  padding: 12px 0 0 0;
+}
+
+/* Code name validation error */
+.codeNameError {
+  font-size: 0.75rem;
+  color: var(--color-text-error, #d32f2f);
+  margin-top: 4px;
+}
+
+/* Code name validation hints */
+.codeNameHints {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.6875rem;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  margin-top: 4px;
+}
+
+/* "Edit in forms" pill button — matches native anchor-button styling */
+.editInFormsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 0 24px;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.77px;
+  line-height: 16px;
+  color: var(--color-product, #7f09b7);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 0.625px solid var(--color-product, #7f09b7);
+  border-radius: 5000px;
+  background: transparent;
+}
+
+.editInFormsLink:hover {
+  background: rgba(127, 9, 183, 0.04);
+}
+
+.editInFormsLink svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.editInFormsLinkDisabled {
+  color: #b3b3b3;
+  border-color: #b3b3b3;
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Radio group (matches native radio button styling)                  */
+/* ------------------------------------------------------------------ */
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.radioGroupLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-default, #252525);
+  margin-bottom: 4px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--color-text-default, #252525);
+}
+
+.radioOption:hover {
+  background: var(--color-background-hover, rgba(0, 0, 0, 0.04));
+}
+
+.radioOption input[type="radio"] {
+  display: none;
+}
+
+.radioCircle {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-default, #d0d0d0);
+  background: #fff;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.radioOption input[type="radio"]:checked + .radioCircle {
+  border-color: var(--color-product, #7f09b7);
+}
+
+.radioOption input[type="radio"]:checked + .radioCircle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-product, #7f09b7);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Object selector ("Select existing" button)                         */
+/* ------------------------------------------------------------------ */
+
+.objectSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.objectSelectorLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-default, #252525);
+}
+
+.objectSelectorSelected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-default, #c4c4c4);
+  border-radius: 4px;
+  background: var(--color-background-primary, #fff);
+}
+
+.objectSelectorSelectedName {
+  font-size: 14px;
+  color: var(--color-text-default, #252525);
+}
+
+.objectSelectorClearBtn {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  padding: 2px;
+}
+
+.objectSelectorClearBtn:hover {
+  color: var(--color-text-error, #d32f2f);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Condition builder                                                  */
+/* ------------------------------------------------------------------ */
+
+.conditionBuilder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conditionBuilderLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-default, #252525);
+}
+
+.requiredMark {
+  color: var(--color-text-error, #d32f2f);
+}
+
+.conditionBuilderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--color-text-default, #151515);
+}
+
+.conditionBuilderPlaceholder {
+  font-size: 14px;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+}
+
+.operatorSelect {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-text-default, #252525);
+}
+
+.operatorSelectDropdown {
+  min-width: 90px;
+}
+
+.deleteGroupButton {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-icon-deactivated, #d32f2f);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Help text                                                          */
+/* ------------------------------------------------------------------ */
+
+.fieldHelpText {
+  font-size: 12px;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Second slide-in panel (condition builder / email selector)         */
+/* ------------------------------------------------------------------ */
+
+.secondPanelOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3005;
+}
+
+.secondPanel {
+  position: fixed;
+  top: 8px;
+  right: 48px;
+  bottom: 8px;
+  left: 40%;
+  background: var(--color-background-primary, #fff);
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    rgba(38, 38, 38, 0.16) 0px 8px 16px 0px,
+    rgba(38, 38, 38, 0.03) 0px 0px 8px 0px;
+  z-index: 3010;
+  border-radius: 8px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Condition item in builder                                          */
+/* ------------------------------------------------------------------ */
+
+.conditionParamsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.conditionParamLabel {
+  font-size: 14px;
+  color: var(--color-text-default, #252525);
+  white-space: nowrap;
+}
+
+.conditionParamInput {
+  height: 40px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-border-default, #c4c4c4);
+  border-radius: 5000px;
+  font-size: 14px;
+  background: var(--color-background-primary, #fff);
+  color: var(--color-text-default, #252525);
+  min-width: 120px;
+  max-width: 200px;
+  box-sizing: border-box;
+}
+
+.conditionParamInput:focus {
+  outline: none;
+  border-color: var(--color-primary, #7c3aed);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Email selector table                                               */
+/* ------------------------------------------------------------------ */
+
+.emailChannelFilter {
+  margin-bottom: 16px;
+}
+
+.emailSelectedCounter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+}
+
+.emailToggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border-default, #c4c4c4);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-text-default, #1e1e1e);
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.emailToggleButton:hover {
+  background: var(--color-background-primary, #7c3aed);
+  color: #fff;
+}
+
+.emailTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.emailTable thead th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 600;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  border-bottom: 1px solid var(--color-border-default, #c4c4c4);
+  font-size: 13px;
+}
+
+.emailRow,
+.emailRowSelected {
+  cursor: pointer;
+}
+
+.emailRow td,
+.emailRowSelected td,
+.emailRowDisabled td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border-low-emphasis, #e8e8e8);
+  color: var(--color-text-default, #1e1e1e);
+}
+
+.emailRow:hover td {
+  background: var(--color-background-hover, #f5f5f5);
+}
+
+.emailRowSelected td {
+  background: var(--color-background-selected, #f0e6ff);
+}
+
+.emailRowDisabled {
+  cursor: default;
+}
+
+.emailRowDisabled td {
+  background: var(--color-background-disabled, #f0f0f0);
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  opacity: 0.7;
+}
+
+.emailNameCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.emailStatusCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  font-size: 13px;
+}
+
+.emailTableEmpty {
+  text-align: center;
+  color: var(--color-text-low-emphasis, #8b8b8b);
+  padding: 24px 12px !important;
+}

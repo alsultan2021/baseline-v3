@@ -1,0 +1,103 @@
+@model Baseline.Account.RCL.Features.DeviceAuthorization.DeviceApproveViewModel
+@{
+    ViewData["Title"] = "Authorize Device";
+}
+
+<div class="device-authorize-container" style="max-width: 500px; margin: 60px auto; padding: 0 20px;">
+    <h1 style="text-align: center; margin-bottom: 10px;">Authorize Device</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+        Enter the code shown on the device you want to sign in.
+    </p>
+
+    @if (Model.Completed)
+    {
+        <!-- Success / completion state -->
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 30px; text-align: center;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom: 15px;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <p style="font-size: 16px; font-weight: 600; color: #166534;">@Model.Message</p>
+            <a href="/" style="color: #22c55e; font-size: 14px;">Return to Home</a>
+        </div>
+    }
+    else if (Model.CodeFound)
+    {
+        <!-- Device found — show details and approve/deny -->
+        <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px; margin-bottom: 20px;">
+            <h3 style="margin-bottom: 20px; font-size: 18px;">Device requesting access:</h3>
+            
+            <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 20px;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                <div>
+                    <div style="font-weight: 600; color: #333;">@(Model.DeviceName ?? "Unknown device")</div>
+                    @if (!string.IsNullOrEmpty(Model.IpAddress))
+                    {
+                        <div style="font-size: 13px; color: #888;">IP: @Model.IpAddress</div>
+                    }
+                </div>
+            </div>
+
+            <div style="background: #fef3c7; border-radius: 8px; padding: 12px 15px; margin-bottom: 25px; font-size: 14px; color: #92400e;">
+                <strong>Only approve this if you recognize this device.</strong>
+                If you didn't request this, deny it immediately.
+            </div>
+
+            <form method="post" asp-antiforgery="true" style="display: flex; gap: 10px;">
+                <input type="hidden" name="UserCode" value="@Model.UserCode" />
+                <button type="submit" name="action" value="approve"
+                    style="flex: 1; padding: 12px; background: #22c55e; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer;">
+                    Approve
+                </button>
+                <button type="submit" name="action" value="deny"
+                    style="flex: 1; padding: 12px; background: #ef4444; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer;">
+                    Deny
+                </button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <!-- Code entry form -->
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px 15px; margin-bottom: 20px; color: #dc2626; font-size: 14px;">
+                @Model.Error
+            </div>
+        }
+
+        <form method="get" action="/@Baseline.Account.RCL.Features.DeviceAuthorization.DeviceAuthorizationController.AuthorizeUrl">
+            <div style="margin-bottom: 20px;">
+                <label for="codeInput" style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">Device Code</label>
+                <input type="text" id="codeInput" name="code" value="@Model.UserCode"
+                    placeholder="ABCD-1234" autocomplete="off" autofocus
+                    style="width: 100%; padding: 14px; font-size: 24px; text-align: center; letter-spacing: 3px; font-family: monospace; border: 2px solid #e5e7eb; border-radius: 8px; text-transform: uppercase;"
+                    maxlength="9" pattern="[A-Za-z]{4}-?[0-9]{4}" required />
+                <p style="font-size: 13px; color: #999; margin-top: 8px; text-align: center;">
+                    Enter the code shown on the other device
+                </p>
+            </div>
+            <button type="submit"
+                style="width: 100%; padding: 14px; background: #333; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer;">
+                Continue
+            </button>
+        </form>
+    }
+</div>
+
+<script>
+    // Auto-format code input (add dash after 4 chars)
+    const input = document.getElementById('codeInput');
+    if (input) {
+        input.addEventListener('input', function (e) {
+            let val = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+            if (val.length > 4) {
+                val = val.substring(0, 4) + '-' + val.substring(4, 8);
+            }
+            this.value = val;
+        });
+    }
+</script>

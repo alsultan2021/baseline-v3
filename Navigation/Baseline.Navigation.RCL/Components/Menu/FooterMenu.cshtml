@@ -1,0 +1,15 @@
+@model Baseline.Navigation.Components.MenuViewModel
+
+@if (Model.HasItems)
+{
+    <nav class="footer-navigation" aria-label="Footer navigation">
+        <ul class="footer-nav-list">
+            @foreach (var item in Model.Menu!.Items)
+            {
+                <li class="footer-nav-item">
+                    <a href="@item.Url" class="footer-nav-link">@item.Title</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>baseline</ToolCommandName>
+        <PackageId>Baseline.Cli</PackageId>
+        <Version>3.0.0</Version>
+        <Authors>XperienceCommunity</Authors>
+        <Description>CLI tool for Baseline v3 - scaffolding, code generation, and project management</Description>
+        <PackageTags>Kentico;Xperience;CLI;Baseline;Scaffolding</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+        <PackageReference Include="Spectre.Console" Version="0.49.1" />
+    </ItemGroup>
+
+</Project>

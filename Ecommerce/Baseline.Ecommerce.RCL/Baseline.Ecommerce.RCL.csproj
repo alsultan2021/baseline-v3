@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Ecommerce.RCL</AssemblyName>
+        <RootNamespace>Baseline.Ecommerce.RCL</RootNamespace>
+        <Description>Baseline v3 Ecommerce RCL - Views, ViewComponents, and TagHelpers for ecommerce UI</Description>
+        <PackageTags>kentico;xperience;baseline;ecommerce;rcl;views</PackageTags>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <StaticWebAssetBasePath>_content/Baseline.Ecommerce.RCL</StaticWebAssetBasePath>
+    </PropertyGroup>
+
+    <!-- Exclude _ViewImports.cshtml from publish to avoid conflicts with other RCLs -->
+    <ItemGroup>
+        <Content Update="_ViewImports.cshtml" Pack="false" CopyToPublishDirectory="Never" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Ecommerce\Baseline.Ecommerce.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

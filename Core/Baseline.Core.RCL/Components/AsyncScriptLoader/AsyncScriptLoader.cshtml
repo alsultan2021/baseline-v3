@@ -1,0 +1,65 @@
+@model Baseline.Core.RCL.Components.AsyncScriptLoader.AsyncScriptLoaderViewModel
+@{
+    var scriptPath = Model.ScriptRunnerPath;
+}
+<script>
+(function() {
+    // Load all queued scripts
+    var scripts = window._scriptQueue || [];
+    var loadedCount = 0;
+    var headerScripts = [];
+    var footerScripts = [];
+    var appendEndScripts = [];
+    
+    // Categorize scripts
+    for (var i = 0; i < scripts.length; i++) {
+        var script = scripts[i];
+        if (script.appendAtEnd) {
+            appendEndScripts.push(script);
+        } else if (script.header) {
+            headerScripts.push(script);
+        } else {
+            footerScripts.push(script);
+        }
+    }
+    
+    // Merge in order: header, footer, appendEnd
+    var orderedScripts = headerScripts.concat(footerScripts).concat(appendEndScripts);
+    
+    function loadScript(script) {
+        return new Promise(function(resolve, reject) {
+            var el = document.createElement('script');
+            el.src = script.src;
+            el.async = true;
+            if (script.crossorigin) {
+                el.crossOrigin = script.crossorigin;
+            }
+            el.onload = resolve;
+            el.onerror = reject;
+            (script.header ? document.head : document.body).appendChild(el);
+        });
+    }
+    
+    // Load scripts sequentially to maintain order
+    function loadScriptsSequentially(scripts, index) {
+        if (index >= scripts.length) {
+            // All scripts loaded, run the script runner
+            if ('@scriptPath') {
+                var runner = document.createElement('script');
+                runner.src = '@scriptPath';
+                document.body.appendChild(runner);
+            }
+            return;
+        }
+        
+        loadScript(scripts[index]).then(function() {
+            loadScriptsSequentially(scripts, index + 1);
+        }).catch(function() {
+            console.error('Failed to load script:', scripts[index].src);
+            loadScriptsSequentially(scripts, index + 1);
+        });
+    }
+    
+    loadScriptsSequentially(orderedScripts, 0);
+})();
+</script>

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <AssemblyName>Baseline.Account.RCL</AssemblyName>
+        <RootNamespace>Baseline.Account.RCL</RootNamespace>
+        <Description>Baseline v3 Account RCL - Views, ViewComponents, and TagHelpers for authentication UI</Description>
+        <PackageTags>kentico;xperience;baseline;account;rcl;views</PackageTags>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <StaticWebAssetBasePath>_content/Baseline.Account.RCL</StaticWebAssetBasePath>
+    </PropertyGroup>
+
+    <!-- Exclude _ViewImports.cshtml from publish to avoid conflicts with other RCLs -->
+    <ItemGroup>
+        <Content Update="_ViewImports.cshtml" Pack="false" CopyToPublishDirectory="Never" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CSharpFunctionalExtensions" Version="3.7.0" />
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.*" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="UAParser" Version="3.1.47" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Account\Baseline.Account.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

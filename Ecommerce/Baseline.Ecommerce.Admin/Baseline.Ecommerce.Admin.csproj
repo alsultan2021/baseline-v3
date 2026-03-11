@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <AssemblyName>Baseline.Ecommerce.Admin</AssemblyName>
+        <RootNamespace>Baseline.Ecommerce.Admin</RootNamespace>
+        <Description>Baseline v3 Ecommerce Admin module - Admin UI for order and product management</Description>
+        <PackageTags>kentico;xperience;baseline;ecommerce;admin</PackageTags>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.3" />
+        <PackageReference Include="XperienceCommunity.ChannelSettings.Admin" Version="$(ChannelSettingsVersion)" />
+        <PackageReference Include="XperienceCommunity.MemberRoles.Admin" Version="$(MemberRolesVersion)" />
+    </ItemGroup>
+
+    <!-- Embedded resources for admin UI -->
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Baseline.Ecommerce\Baseline.Ecommerce.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
+    </ItemGroup>
+
+</Project>

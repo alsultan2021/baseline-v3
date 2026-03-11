@@ -1,0 +1,21 @@
+@model Baseline.Search.Components.SearchFormViewModel
+
+<form action="@Model.Action" method="get" class="@(Model.CssClass ?? "search-form")" role="search">
+    <div class="input-group">
+        <label for="search-input" class="visually-hidden">Search</label>
+        <input type="search" 
+               id="search-input"
+               name="q" 
+               class="form-control" 
+               placeholder="@Model.Placeholder"
+               value="@Model.CurrentQuery"
+               aria-label="@Model.Placeholder" />
+        @if (Model.ShowButton)
+        {
+            <button type="submit" class="btn btn-primary">
+                <i class="feather icon-feather-search" aria-hidden="true"></i>
+                <span class="visually-hidden">@Model.ButtonText</span>
+            </button>
+        }
+    </div>
+</form>

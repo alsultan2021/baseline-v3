@@ -1,0 +1,31 @@
+@model Baseline.TabbedPages.Components.TabbedPageComponentViewModel
+
+@if (Model.Tabs.Count > 0)
+{
+    var navClass = Model.Variant switch
+    {
+        Baseline.TabbedPages.Components.TabVariant.Pills => "nav nav-pills",
+        Baseline.TabbedPages.Components.TabVariant.Underlined => "nav nav-tabs nav-underlined",
+        Baseline.TabbedPages.Components.TabVariant.Vertical => "nav nav-pills flex-column",
+        _ => "nav nav-tabs"
+    };
+
+    <nav class="tabbed-pages-nav mb-4" aria-label="Tab navigation">
+        <ul class="@navClass" role="tablist">
+            @foreach (var tab in Model.Tabs.OrderBy(t => t.Order))
+            {
+                var isActive = tab.Id == Model.CurrentPageId || tab.IsDefault;
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link @(isActive ? "active" : "")" href="#@tab.Slug" @(isActive ? "aria-current=\"page\"" : "")
+                           role="tab">
+                        @if (!string.IsNullOrEmpty(tab.Icon))
+                        {
+                            <i class="@tab.Icon me-2" aria-hidden="true"></i>
+                        }
+                        @tab.Title
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

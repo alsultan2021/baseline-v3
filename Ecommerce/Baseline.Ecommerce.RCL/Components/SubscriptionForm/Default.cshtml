@@ -1,0 +1,73 @@
+@model Baseline.Ecommerce.Components.SubscriptionFormViewModel
+
+<div class="subscription-form-container">
+    @if (Model.IsSuccess)
+    {
+        <div class="alert alert-success" role="alert">
+            <i class="feather icon-feather-check-circle me-2" aria-hidden="true"></i>
+            @Model.SuccessMessage
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Subscription" asp-action="Subscribe" method="post" class="subscription-form needs-validation" novalidate>
+            @if (Model.NewsletterId.HasValue)
+            {
+                <input type="hidden" name="newsletterId" value="@Model.NewsletterId" />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger mb-3" role="alert">
+                    @Model.ErrorMessage
+                </div>
+            }
+
+            @if (Model.ShowNameField)
+            {
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="firstName" 
+                               name="firstName"
+                               value="@Model.FirstName"
+                               placeholder="First name" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="lastName" 
+                               name="lastName"
+                               value="@Model.LastName"
+                               placeholder="Last name" />
+                    </div>
+                </div>
+            }
+
+            <div class="input-group">
+                <label for="subscription-email" class="visually-hidden">Email address</label>
+                <input type="email" 
+                       class="form-control" 
+                       id="subscription-email" 
+                       name="email"
+                       value="@Model.Email"
+                       placeholder="@Model.PlaceholderText"
+                       required
+                       aria-describedby="email-feedback" />
+                <button type="submit" class="btn btn-primary">
+                    @Model.ButtonText
+                </button>
+                <div class="invalid-feedback" id="email-feedback">
+                    Please enter a valid email address.
+                </div>
+            </div>
+
+            <div class="form-text mt-2">
+                We respect your privacy. Unsubscribe at any time.
+            </div>
+        </form>
+    }
+</div>

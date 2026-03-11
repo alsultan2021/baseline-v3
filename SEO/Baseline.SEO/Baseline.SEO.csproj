@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Baseline.SEO</RootNamespace>
+        <Description>Baseline SEO module for Xperience by Kentico - provides GEO optimization, Answer Engine structuring, SEO auditing, and LLMs.txt support for AI search visibility.</Description>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>XperienceCommunity.Baseline.SEO</PackageId>
+        <Version>$(BaselineVersion)</Version>
+        <PackageTags>Kentico;Xperience;SEO;GEO;Schema.org;LLMs;StructuredData;AnswerEngine</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Explicit dependency for IServiceCollection.AddOptions<T>() in DI extension -->
+        <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.*" />
+        <!-- TryAddScoped in DI extension -->
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
+        <!-- ILogger<T> in no-op service implementations -->
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.*" />
+    </ItemGroup>
+
+</Project>

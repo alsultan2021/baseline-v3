@@ -1,0 +1,132 @@
+@model Baseline.Account.RCL.Features.OrderHistory.OrderDetailViewModel
+@{
+    ViewData["Title"] = Model?.Order is not null ? $"Order #{Model.Order.OrderNumber}" : "Order Details";
+}
+
+<div class="order-detail-container">
+    <h1>Order Details</h1>
+    
+    @if (!string.IsNullOrEmpty(Model?.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
+    else if (Model?.Order is not null)
+    {
+        var order = Model.Order;
+        
+        <div class="order-header">
+            <div class="order-info">
+                <h2>Order #@order.OrderNumber</h2>
+                <p>Placed on @order.OrderDate.ToString("f")</p>
+                <span class="order-status status-@order.Status.ToLowerInvariant()">@order.Status</span>
+            </div>
+        </div>
+        
+        <div class="order-items">
+            <h3>Items</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in order.Items)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    <img src="@item.ImageUrl" alt="@item.ProductName" class="item-image" />
+                                }
+                                <div class="item-info">
+                                    <span class="item-name">@item.ProductName</span>
+                                    <span class="item-sku">SKU: @item.Sku</span>
+                                </div>
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("C")</td>
+                            <td>@item.LineTotal.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <dl>
+                <dt>Subtotal</dt>
+                <dd>@order.Subtotal.ToString("C")</dd>
+                
+                @if (order.Discount > 0)
+                {
+                    <dt>Discount</dt>
+                    <dd>-@order.Discount.ToString("C")</dd>
+                }
+                
+                <dt>Shipping</dt>
+                <dd>@order.Shipping.ToString("C")</dd>
+                
+                <dt>Tax</dt>
+                <dd>@order.Tax.ToString("C")</dd>
+                
+                <dt class="total">Total</dt>
+                <dd class="total">@order.Total.ToString("C")</dd>
+            </dl>
+        </div>
+        
+        <div class="order-addresses">
+            @if (order.ShippingAddress is not null)
+            {
+                <div class="address shipping-address">
+                    <h4>Shipping Address</h4>
+                    <address>
+                        @order.ShippingAddress.Name<br />
+                        @order.ShippingAddress.Line1<br />
+                        @if (!string.IsNullOrEmpty(order.ShippingAddress.Line2))
+                        {
+                            @order.ShippingAddress.Line2<br />
+                        }
+                        @order.ShippingAddress.City, @order.ShippingAddress.State @order.ShippingAddress.PostalCode<br />
+                        @order.ShippingAddress.Country
+                    </address>
+                </div>
+            }
+            
+            @if (order.BillingAddress is not null)
+            {
+                <div class="address billing-address">
+                    <h4>Billing Address</h4>
+                    <address>
+                        @order.BillingAddress.Name<br />
+                        @order.BillingAddress.Line1<br />
+                        @if (!string.IsNullOrEmpty(order.BillingAddress.Line2))
+                        {
+                            @order.BillingAddress.Line2<br />
+                        }
+                        @order.BillingAddress.City, @order.BillingAddress.State @order.BillingAddress.PostalCode<br />
+                        @order.BillingAddress.Country
+                    </address>
+                </div>
+            }
+        </div>
+        
+        @if (!string.IsNullOrEmpty(order.TrackingNumber))
+        {
+            <div class="tracking-info">
+                <h4>Tracking</h4>
+                <p>Tracking Number: <strong>@order.TrackingNumber</strong></p>
+            </div>
+        }
+    }
+    
+    <p class="mt-3">
+        <a href="/Account/Orders">Back to Order History</a>
+    </p>
+</div>

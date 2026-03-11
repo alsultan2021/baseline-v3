@@ -1,0 +1,45 @@
+@model Baseline.Localization.Components.LanguageSelectorViewModel
+
+@* Default dropdown variant *@
+@if (Model.Languages.Count > 1)
+{
+    <div class="language-selector dropdown">
+        <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" id="languageDropdown"
+            data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select language">
+            @if (Model.ShowFlags && !string.IsNullOrEmpty(Model.CurrentLanguage?.FlagUrl))
+            {
+                <img src="@Model.CurrentLanguage.FlagUrl" alt="" class="language-flag me-1" width="20" height="15" />
+            }
+            @if (Model.ShowNativeNames)
+            {
+                @Model.CurrentLanguage?.NativeName
+            }
+            else
+            {
+                @Model.CurrentLanguage?.Code.ToUpperInvariant()
+            }
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+            @foreach (var lang in Model.Languages)
+            {
+                <li>
+                    <a class="dropdown-item @(lang.IsCurrent ? "active" : "")" href="@lang.Url" hreflang="@lang.Code"
+                        @(lang.IsCurrent ? "aria-current=\"page\"" : "")>
+                        @if (Model.ShowFlags && !string.IsNullOrEmpty(lang.FlagUrl))
+                        {
+                            <img src="@lang.FlagUrl" alt="" class="language-flag me-2" width="20" height="15" />
+                        }
+                        @if (Model.ShowNativeNames)
+                        {
+                            @lang.NativeName
+                        }
+                        else
+                        {
+                            @lang.Name
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}

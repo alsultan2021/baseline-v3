@@ -1,0 +1,143 @@
+@model Baseline.Ecommerce.Components.CartViewModel
+<meta name="robots" content="noindex, nofollow">
+
+<div class="shopping-cart">
+    @if (Model.IsEmpty)
+    {
+        <div class="cart-empty text-center py-5">
+            <i class="feather icon-feather-shopping-cart text-muted mb-4" style="font-size: 4rem;" aria-hidden="true"></i>
+            <h2 class="h4 mb-3">Your cart is empty</h2>
+            <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+            <a href="/" class="btn btn-primary">
+                Continue Shopping
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="cart-items">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="border-0">Product</th>
+                            <th scope="col" class="border-0 text-end">Price</th>
+                            <th scope="col" class="border-0 text-center">Quantity</th>
+                            <th scope="col" class="border-0 text-end">Total</th>
+                            <th scope="col" class="border-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <img src="@item.ImageUrl" alt="@item.Name" class="cart-item-image me-3" width="80"
+                                                height="80" style="object-fit: cover;" />
+                                        }
+                                        <div>
+                                            @if (!string.IsNullOrEmpty(item.ProductUrl))
+                                            {
+                                                <a href="@item.ProductUrl" class="fw-medium text-decoration-none">@item.Name</a>
+                                            }
+                                            else
+                                            {
+                                                <span class="fw-medium">@item.Name</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.Sku))
+                                            {
+                                                <div class="text-muted small">SKU: @item.Sku</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    @item.UnitPrice.ToString("C")
+                                </td>
+                                <td class="text-center">
+                                    <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="d-inline">
+                                        <input type="hidden" name="itemId" value="@item.Id" />
+                                        <div class="input-group input-group-sm" style="width: 120px; margin: 0 auto;">
+                                            <button type="submit" name="action" value="decrease"
+                                                class="btn btn-outline-secondary">−</button>
+                                            <input type="number" name="quantity" value="@item.Quantity" min="1"
+                                                class="form-control text-center" aria-label="Quantity" />
+                                            <button type="submit" name="action" value="increase"
+                                                class="btn btn-outline-secondary">+</button>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td class="text-end fw-medium">
+                                    @item.LineTotal.ToString("C")
+                                </td>
+                                <td class="text-end">
+                                    <form asp-controller="Cart" asp-action="RemoveItem" method="post" class="d-inline">
+                                        <input type="hidden" name="itemId" value="@item.Id" />
+                                        <button type="submit" class="btn btn-link text-danger p-0"
+                                            aria-label="Remove @item.Name from cart">
+                                            <i class="feather icon-feather-trash-2" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="cart-summary-section mt-4">
+            <div class="row justify-content-end">
+                <div class="col-md-5 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="h5 mb-3">Order Summary</h3>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <span>@Model.Subtotal.ToString("C")</span>
+                            </div>
+
+                            @if (Model.Discount > 0)
+                            {
+                                <div class="d-flex justify-content-between mb-2 text-success">
+                                    <span>Discount</span>
+                                    <span>−@Model.Discount.ToString("C")</span>
+                                </div>
+                            }
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping</span>
+                                <span>@(Model.Shipping > 0 ? Model.Shipping.ToString("C") : "Free")</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax</span>
+                                <span>@Model.Tax.ToString("C")</span>
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
+                                <span>Total</span>
+                                <span>@Model.Total.ToString("C")</span>
+                            </div>
+
+                            <a href="/checkout" class="btn btn-primary w-100">
+                                <i class="feather icon-feather-credit-card me-2" aria-hidden="true"></i>
+                                Proceed to Checkout
+                            </a>
+
+                            <a href="/" class="btn btn-outline-secondary w-100 mt-2">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

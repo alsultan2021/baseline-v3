@@ -1,0 +1,18 @@
+@using Baseline.Core
+@using Baseline.Core.RCL.TagHelpers
+@using Baseline.Core.RCL.Components.AsyncScriptFunctions
+@using Baseline.Core.RCL.Components.AsyncScriptLoader
+@using Baseline.Core.RCL.Components.ImportModelState
+@using Baseline.Core.RCL.Features.HttpErrors
+@using Baseline.Core.RCL.Features.PageBuilderError
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Baseline.Core.RCL
+
+@* Community Tag Helper Packages (plug-and-play) *@
+@addTagHelper *, XperienceCommunity.DevTools.PageBuilderTagHelpers
+@using PartialWidgetPage
+@addTagHelper *, XperienceCommunity.PartialWidgetPage
+@* PageEditButton v1.1.0 is incompatible with XbK v31 - IPageUrlGenerator was removed
+@addTagHelper *, XperienceCommunity.PageEditButton
+*@
