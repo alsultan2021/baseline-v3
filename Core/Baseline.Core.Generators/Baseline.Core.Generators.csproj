@@ -11,9 +11,15 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>Baseline.Core.Generators</PackageId>
         <Version>3.0.0</Version>
-        <Authors>XperienceCommunity</Authors>
+        <Authors>Cheval Royal Team</Authors>
         <Description>Roslyn Source Generators for Baseline v3 - reduces boilerplate code by 80%</Description>
         <PackageTags>Kentico;Xperience;SourceGenerator;Baseline</PackageTags>
+        <!-- Source Generator specific settings -->
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <NoPackageAnalysis>true</NoPackageAnalysis>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <!-- Override Directory.Build.props settings that don't apply to source generators -->
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
