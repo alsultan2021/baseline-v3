@@ -12,13 +12,10 @@
         <Authors>Cheval Royal Team</Authors>
         <Description>Roslyn Source Generators for Baseline v3 - reduces boilerplate code by 80%</Description>
         <PackageTags>Kentico;Xperience;SourceGenerator;Baseline</PackageTags>
-        <!-- Source Generator specific settings -->
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <DevelopmentDependency>true</DevelopmentDependency>
-        <IsPackable>true</IsPackable>
+        <!-- EXCLUDE from solution pack - source generators need special handling -->
+        <IsPackable>false</IsPackable>
         <!-- Override Directory.Build.props settings -->
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <NoWarn>$(NoWarn);NU5128</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,11 +24,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
-    </ItemGroup>
-
-    <!-- Pack the generator DLL into the analyzers folder -->
-    <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
 </Project>
