@@ -1,0 +1,63 @@
+name: Publish NuGet Packages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 3.0.1)'
+        required: false
+        default: ''
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Determine version
+      id: version
+      run: |
+        if [ -n "${{ github.event.inputs.version }}" ]; then
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+        elif [ "${{ github.event_name }}" == "release" ]; then
+          echo "VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+        else
+          echo "VERSION=3.0.0-preview" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Restore dependencies
+      run: dotnet restore Baseline.v3.sln
+
+    - name: Build
+      run: dotnet build Baseline.v3.sln --configuration Release --no-restore -p:Version=${{ steps.version.outputs.VERSION }}
+
+    - name: Pack NuGet packages
+      run: dotnet pack Baseline.v3.sln --configuration Release --no-build -p:Version=${{ steps.version.outputs.VERSION }} --output ./nupkgs
+
+    - name: List packages
+      run: ls -la ./nupkgs
+
+    - name: Push to NuGet.org
+      if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+      run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
+
+    - name: Upload packages as artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./nupkgs/*.nupkg
