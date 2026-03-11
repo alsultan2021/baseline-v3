@@ -7,19 +7,18 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>Baseline.Core.Generators</PackageId>
         <Version>3.0.0</Version>
         <Authors>Cheval Royal Team</Authors>
         <Description>Roslyn Source Generators for Baseline v3 - reduces boilerplate code by 80%</Description>
         <PackageTags>Kentico;Xperience;SourceGenerator;Baseline</PackageTags>
         <!-- Source Generator specific settings -->
+        <IncludeBuildOutput>false</IncludeBuildOutput>
         <DevelopmentDependency>true</DevelopmentDependency>
-        <NoPackageAnalysis>true</NoPackageAnalysis>
-        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
-        <!-- Override Directory.Build.props settings that don't apply to source generators -->
+        <IsPackable>true</IsPackable>
+        <!-- Override Directory.Build.props settings -->
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -30,6 +29,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
     </ItemGroup>
 
+    <!-- Pack the generator DLL into the analyzers folder -->
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
