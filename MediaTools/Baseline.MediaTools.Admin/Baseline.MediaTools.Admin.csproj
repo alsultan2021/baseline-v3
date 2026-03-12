@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>XperienceCommunity.Baseline.MediaTools.Admin</PackageId>
+        <PackageId>Baseline.MediaTools.Admin</PackageId>
         <Version>$(BaselineVersion)</Version>
         <Description>Admin UI module for Baseline.MediaTools - provides custom form components and tools for image editing, video asset preview, and design building in the Xperience admin interface.</Description>
         <PackageTags>Kentico;Xperience;MediaTools;Admin;ImageEditor;VideoPreview;DesignBuilder</PackageTags>
@@ -30,7 +30,7 @@
 
     <ItemGroup>
         <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.3" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.4" />
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
     </ItemGroup>
 
@@ -52,6 +52,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Update="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
       <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
     </ItemGroup>
 

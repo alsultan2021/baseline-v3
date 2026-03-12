@@ -232,10 +232,17 @@ public static class BaselineEcommerceServiceCollectionExtensions
             opts.EnhancementPrompt = "Format replies as helpful e-commerce assistant responses. " +
                 "Use product SKUs, order numbers, and pricing data to provide accurate answers.");
 
-        // Register no-op automation event interceptor as default.
-        // The Baseline.Automation module overrides this with the real implementation
-        // when AddBaselineAutomation() is called from the starting site.
-        services.TryAddScoped<IAutomationEventInterceptor, NullAutomationEventInterceptor>();
+        // Register automation event interceptor.
+        // When automation is enabled, use the real bridge that dispatches triggers;
+        // otherwise fall back to the no-op implementation.
+        if (options.EnableAutomation)
+        {
+            services.AddScoped<IAutomationEventInterceptor, AutomationEventInterceptor>();
+        }
+        else
+        {
+            services.TryAddScoped<IAutomationEventInterceptor, NullAutomationEventInterceptor>();
+        }
 
         return services;
     }

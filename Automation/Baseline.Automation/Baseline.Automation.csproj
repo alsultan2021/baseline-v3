@@ -22,7 +22,7 @@
 
     <ItemGroup>
         <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.3" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.4" />
     </ItemGroup>
 
 
@@ -42,6 +42,10 @@
 
     <ItemGroup>
         <Folder Include="Client\dist\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
     </ItemGroup>
 
     <!-- npm install before build -->

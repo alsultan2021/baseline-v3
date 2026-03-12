@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Kentico.Xperience.Admin" Version="31.2.0" />
-        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.4.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Update="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
       <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
     </ItemGroup>
 

@@ -19,14 +19,14 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>XperienceCommunity.Baseline.AI</PackageId>
+        <PackageId>Baseline.AI</PackageId>
         <Version>$(BaselineVersion)</Version>
         <PackageTags>Kentico;Xperience;AI;OpenAI;Azure;Search;Embeddings;RAG;Chatbot</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
-        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.3.0" />
+        <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.4.0" />
         <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
         <PackageReference Include="Microsoft.SemanticKernel" Version="1.73.0" />
         <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.73.0" />
@@ -44,6 +44,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Update="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
       <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
     </ItemGroup>
 

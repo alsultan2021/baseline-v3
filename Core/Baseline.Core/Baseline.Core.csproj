@@ -35,8 +35,4 @@
         <PackageReference Include="XperienceCommunity.RelationshipsExtended.Core" Version="$(RelationshipsExtendedVersion)" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
-    </ItemGroup>
-
 </Project>

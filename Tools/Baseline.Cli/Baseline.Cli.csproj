@@ -8,7 +8,7 @@
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>baseline</ToolCommandName>
         <PackageId>Baseline.Cli</PackageId>
-        <Version>3.0.0</Version>
+        <Version>3.0.1</Version>
         <Authors>XperienceCommunity</Authors>
         <Description>CLI tool for Baseline v3 - scaffolding, code generation, and project management</Description>
         <PackageTags>Kentico;Xperience;CLI;Baseline;Scaffolding</PackageTags>

@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <XByKVersion>31.2.0</XByKVersion>
-        <BaselineVersion>3.0.0</BaselineVersion>
+        <BaselineVersion>3.0.1</BaselineVersion>
         <Version>$(BaselineVersion)</Version>
         <PackageVersion>$(BaselineVersion)</PackageVersion>
         <LangVersion>14.0</LangVersion>
@@ -17,11 +17,11 @@
     </PropertyGroup>
     <!-- Pin AngleSharp to 0.17.1 to resolve conflict with HtmlSanitizer 9.0.889 and AngleSharp.Css 0.17.0 -->
     <!-- Pin SemanticKernel.Core to 1.73.0 to fix CVE-2026-25592 vulnerability (transitive from ModelContextProtocol) -->
-    <!-- Override vulnerable transitive dependency Magick.NET-Q8-AnyCPU with secure version -->
+    <!-- Override vulnerable transitive dependency Magick.NET-Q8-AnyCPU with secure version (14.10.4 fixes GHSA-39h3-g67r-7g3c, GHSA-5vx3-wx4q-6cj8, GHSA-9vj4-wc7r-p844, GHSA-qp59-x883-77qv) -->
     <ItemGroup>
         <PackageReference Include="AngleSharp" Version="0.17.1" />
         <PackageReference Include="Microsoft.SemanticKernel.Core" Version="1.73.0" />
-        <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.3" />
+        <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
     </ItemGroup>
     <!-- Community Package Versions -->
     <PropertyGroup>

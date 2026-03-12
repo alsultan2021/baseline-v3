@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageId>XperienceCommunity.Baseline.SEO</PackageId>
+        <PackageId>Baseline.SEO</PackageId>
         <Version>$(BaselineVersion)</Version>
         <PackageTags>Kentico;Xperience;SEO;GEO;Schema.org;LLMs;StructuredData;AnswerEngine</PackageTags>
     </PropertyGroup>

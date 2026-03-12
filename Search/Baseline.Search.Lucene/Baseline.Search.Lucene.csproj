@@ -17,7 +17,7 @@
         <PackageReference Include="Kentico.Xperience.WebApp" Version="31.2.0" />
         <PackageReference Include="Lucene.Net.Highlighter" Version="4.8.0-beta00017" />
         <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00017" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.4" />
         <!-- AngleSharp 0.17.1 is inherited from Directory.Build.props -->
     </ItemGroup>
 
@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Update="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
       <PackageReference Update="Microsoft.SemanticKernel.Core" Version="1.73.0" />
     </ItemGroup>
 

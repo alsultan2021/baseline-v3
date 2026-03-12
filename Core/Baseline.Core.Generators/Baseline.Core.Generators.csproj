@@ -8,7 +8,7 @@
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
         <PackageId>Baseline.Core.Generators</PackageId>
-        <Version>3.0.0</Version>
+        <Version>3.0.1</Version>
         <Authors>Cheval Royal Team</Authors>
         <Description>Roslyn Source Generators for Baseline v3 - reduces boilerplate code by 80%</Description>
         <PackageTags>Kentico;Xperience;SourceGenerator;Baseline</PackageTags>
